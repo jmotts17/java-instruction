@@ -1,5 +1,8 @@
 package ch03_Instruction;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+
 public class InstructionApp {
 
 	public static void main(String[] args) {
@@ -50,7 +53,19 @@ public class InstructionApp {
 		// Math Class
 		double x1 = 10.315;
 		x1 = (double) Math.round(x1 * 100) / 100.0;
-		System.out.println(x1);
+		// System.out.println(x1);
+
+		// Number Format Class
+		NumberFormat percent = NumberFormat.getPercentInstance();
+		double majority = .505;
+		String majorityString = percent.format(majority);
+		// System.out.println(majorityString);
+
+		// Big Decimal
+		BigDecimal pi = new BigDecimal("3.14159");
+		BigDecimal myBD = new BigDecimal("56.0");
+		myBD = myBD.add(pi);
+		System.out.println(myBD);
 
 	}
 
