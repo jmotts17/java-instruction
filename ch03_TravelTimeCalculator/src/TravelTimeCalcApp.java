@@ -17,13 +17,21 @@ public class TravelTimeCalcApp {
 
 		do {
 
-			System.out.println("Enter miles: ");
+			System.out.print("\nEnter miles: ");
 			miles = scanner.nextDouble();
 
-			System.out.println("Enter miles per hour: ");
+			System.out.print("Enter miles per hour: ");
 			mph = scanner.nextDouble();
 
-			System.out.print("Continue? (y/n): ");
+			hours = (int) Math.floor(miles / mph);
+			minutes = (int) Math.floor(miles % mph);
+
+			System.out.println("\nEstimated travel time");
+			System.out.println("---------------------");
+			System.out.println("Hours:   " + hours);
+			System.out.println("Minutes: " + minutes);
+
+			System.out.print("\nContinue? (y/n): ");
 			prompt = scanner.next();
 		} while (prompt.equalsIgnoreCase("y"));
 
