@@ -11,6 +11,8 @@ public class InterestCalcApp {
 
 		// Number Formatter
 		NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
+		NumberFormat percentFormat = NumberFormat.getPercentInstance();
+		percentFormat.setMaximumFractionDigits(3);
 
 		// Variable Declaration
 		String prompt = "";
@@ -21,19 +23,16 @@ public class InterestCalcApp {
 		do {
 			// Prompt user for input
 			System.out.print("\nEnter loan amount: ");
-			String strLoanAmount = scanner.next();
+			BigDecimal loanAmount = scanner.nextBigDecimal();
 			System.out.print("Enter interest rate: ");
-			String strInterestRate = scanner.next();
+			BigDecimal interestRate = scanner.nextBigDecimal();
 
-			// Convert to BigDecimal & Calculate Results
-			BigDecimal loanAmount = new BigDecimal(strLoanAmount);
-			BigDecimal interestRate = new BigDecimal(strInterestRate);
+			// Calculate Results
 			BigDecimal interest = loanAmount.multiply(interestRate).setScale(2, BigDecimal.ROUND_HALF_UP);
-			interestRate = interestRate.movePointRight(2);
 
 			// Output Results
 			System.out.print("\nLoan amount: \t" + moneyFormat.format(loanAmount));
-			System.out.print("\nInterest Rate: \t" + interestRate + "%");
+			System.out.print("\nInterest Rate: \t" + percentFormat.format(interestRate));
 			System.out.print("\nLoan amount: \t" + moneyFormat.format(interest));
 
 			// Prompt user to continue
