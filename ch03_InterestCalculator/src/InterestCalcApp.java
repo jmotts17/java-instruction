@@ -31,12 +31,12 @@ public class InterestCalcApp {
 			BigDecimal interest = loanAmount.multiply(interestRate).setScale(2, BigDecimal.ROUND_HALF_UP);
 
 			// Output Results
-			System.out.print("\nLoan amount: \t" + moneyFormat.format(loanAmount));
-			System.out.print("\nInterest Rate: \t" + percentFormat.format(interestRate));
-			System.out.print("\nLoan amount: \t" + moneyFormat.format(interest));
+			System.out.println("\nLoan amount: \t" + moneyFormat.format(loanAmount));
+			System.out.println("Interest Rate: \t" + percentFormat.format(interestRate));
+			System.out.println("Interest: \t" + moneyFormat.format(interest));
 
 			// Prompt user to continue
-			System.out.print("\n\nContinue? (y/n): ");
+			System.out.print("\nContinue? (y/n): ");
 			prompt = scanner.next();
 
 		} while (prompt.equalsIgnoreCase("y"));
