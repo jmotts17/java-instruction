@@ -66,7 +66,7 @@ public class GuessNumberApp {
 				isValid = true;
 				sc.nextLine();
 			} else {
-				System.out.println("Invalid integer number");
+				System.out.println("Invalid entry");
 				sc.nextLine();
 			}
 		}
