@@ -13,7 +13,7 @@ public class FutureValueWithMethodApp {
 			double interestRate;
 			int years;
 
-			monthlyInvestment = getDoubleWithinRange(sc, "Enter monthly investment:   ", 0, 1000);
+			monthlyInvestment = getDoubleWithinRange(sc, "Enter monthly investment: ", 0, 1000);
 
 			interestRate = getDoubleWithinRange(sc, "Enter yearly interest rate: ", 0, 30);
 
