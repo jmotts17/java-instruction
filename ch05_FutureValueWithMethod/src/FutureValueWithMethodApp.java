@@ -56,17 +56,16 @@ public class FutureValueWithMethodApp {
 			if (sc.hasNextDouble()) {
 				retVal = sc.nextDouble();
 				isValid = true;
-				sc.nextLine();
 			} else {
 				System.out.println("Invalid decimal number");
-				sc.nextLine();
 			}
+			sc.nextLine();
 		}
 
 		return retVal;
 	}
 
-	public static double getDoubleWithinRange(Scanner sc, String prompt, int min, int max) {
+	public static double getDoubleWithinRange(Scanner sc, String prompt, double min, double max) {
 		double retVal = 0.0;
 		boolean isValid = false;
 
@@ -94,11 +93,10 @@ public class FutureValueWithMethodApp {
 			if (sc.hasNextInt()) {
 				retVal = sc.nextInt();
 				isValid = true;
-				sc.nextLine();
 			} else {
 				System.out.println("Invalid integer number");
-				sc.nextLine();
 			}
+			sc.nextLine();
 		}
 
 		return retVal;
