@@ -21,12 +21,12 @@ public class GuessingGameApp {
 			// Iterates until the user guesses the random number
 			while (guess != randomNum) {
 				guess = getInt(scanner, "\nEnter number: "); // Call getInt method
-				message = hint(guess, randomNum); // Call hint method
 				count++; // Add 1 to count per guess
+				message = hint(guess, randomNum, count); // Call hint method
 
 				// If-Else determines message output
 				if (guess == randomNum) {
-					System.out.println(message + count + " tries.");
+					System.out.println(message);
 					System.out.println(winner(count));
 					scanner.nextLine();
 				} else {
@@ -92,7 +92,7 @@ public class GuessingGameApp {
 	// Hint Method - Takes in 2 integers and returns a string.
 	// This method takes the users guess and randomNum and returns a string with
 	// a hint based on how high/low they are from the random number.
-	public static String hint(int guess, int randomNum) {
+	public static String hint(int guess, int randomNum, int count) {
 		if (guess > randomNum) {
 			if ((guess - randomNum) > 10) {
 				return "Way too high";
@@ -107,7 +107,7 @@ public class GuessingGameApp {
 			}
 		}
 
-		return "You got it in ";
+		return "You got it in " + count + " tries.";
 
 	}
 
