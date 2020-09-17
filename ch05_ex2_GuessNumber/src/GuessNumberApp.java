@@ -27,7 +27,7 @@ public class GuessNumberApp {
 		int guess;
 
 		while (true) {
-			guess = getInt(sc, "Your guess: ");
+			guess = getIntWithinRange(sc, "Your guess: ", 1, LIMIT);
 
 //			try {
 //				guess = sc.nextInt();
@@ -53,6 +53,32 @@ public class GuessNumberApp {
 			count++;
 		}
 		System.out.println("Bye!");
+	}
+
+	/**
+	 * Prompts the user for an integer between minInclusive and maxInclusive
+	 * 
+	 * @param sc
+	 * @param prompt
+	 * @param minInclusive
+	 * @param maxInclusive
+	 * @return
+	 */
+	public static int getIntWithinRange(Scanner sc, String prompt, int minInclusive, int maxInclusive) {
+		boolean isValid = false;
+		int retVal = 0;
+
+		while (!isValid) {
+			retVal = getInt(sc, prompt);
+
+			if (retVal >= minInclusive && retVal <= maxInclusive) {
+				isValid = true;
+			} else {
+				System.out.println("Value must be between " + minInclusive + " and " + maxInclusive + ".");
+			}
+		}
+
+		return retVal;
 	}
 
 	public static int getInt(Scanner sc, String prompt) {
