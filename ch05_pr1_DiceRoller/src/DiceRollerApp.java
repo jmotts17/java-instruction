@@ -56,4 +56,9 @@ public class DiceRollerApp {
 
 	}
 
+	// getDiceRoll Method - Creates a random number 1-6 and returns it.
+	private static int getDiceRoll() {
+		return (int) (Math.random() * 6) + 1;
+	}
+
 }
