@@ -1,64 +1,78 @@
 import java.util.Scanner;
 
-public class DiceRollerApp {
+class DiceRollerApp {
 
 	public static void main(String[] args) {
+
+		// Output Welcome Message
+		System.out.println("Dice Roller");
 
 		// Create Scanner Object
 		Scanner scanner = new Scanner(System.in);
 
-		// Output Welcome Message
-		System.out.println("Dice Roller\n");
+		// Variable Declaration
+		final String MESSAGE = "Roll the dice? (y/n): ";
+		String response = prompt(scanner, MESSAGE);
 
-		// Call prompt method and store result in choice variable
-		String choice = prompt(scanner, "Roll the dice? (y/n): ");
+		while (response.equalsIgnoreCase("y")) {
+			// Create 2 variables to store the return from rollDice
+			int dice1 = rollDice();
+			int dice2 = rollDice();
 
-		// Loop continues as long as user enters "y"
-		while (choice.equalsIgnoreCase("y")) {
-			// Call rollDice method
-			rollDice();
+			// Calls the outputResults method
+			outputResults(dice1, dice2);
 
-			// Call prompt method and store result in choice variable
-			choice = prompt(scanner, "\nRoll the dice? (y/n): ");
+			// Calls the prompt method
+			response = prompt(scanner, MESSAGE);
 		}
-
 	}
 
-	// Prompt Method - Prompts the user to roll the dice.
-	// This method verifies that the user entered valid data.
-	public static String prompt(Scanner scanner, String prompt) {
-
-		String choice;
+	/**
+	 * Prompt - Outputs a prompt to use the user and validates the users entry.
+	 * 
+	 * @param scanner
+	 * @param message
+	 * @return String
+	 */
+	private static String prompt(Scanner scanner, String message) {
+		String response;
 
 		do {
-			System.out.print(prompt);
-			choice = scanner.next();
-		} while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
+			System.out.print("\n" + message);
+			response = scanner.next();
+		} while (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n"));
 
-		return choice;
+		return response;
+
 	}
 
-	// rollDice Method - Creates 2 dice and outputs the results.
-	public static void rollDice() {
+	/**
+	 * RollDice calculates and returns a number 1-6.
+	 * 
+	 * @return int
+	 */
+	private static int rollDice() {
+		return (int) (Math.random() * 6) + 1;
+	}
 
-		int die1 = (int) (Math.random() * 6) + 1;
-		int die2 = (int) (Math.random() * 6) + 1;
+	/**
+	 * OutputResults outputs the results of the dice rolls, the total and a message
+	 * if the user rolls 2 1's or 2 6's.
+	 * 
+	 * @param dice1
+	 * @param dice2
+	 */
+	private static void outputResults(int dice1, int dice2) {
 
-		System.out.println("\nDie 1: " + die1);
-		System.out.println("Die 2: " + die2);
-		System.out.println("Total: " + (die1 + die2));
+		System.out.println("\nDice 1: " + dice1);
+		System.out.println("Dice 2: " + dice2);
+		System.out.println("Total:  " + (dice1 + dice2));
 
-		if (die1 == 1 && die2 == 1) {
+		if (dice1 == 1 && dice2 == 1) {
 			System.out.println("Snake Eyes!");
-		} else if (die1 == 6 && die2 == 6) {
+		} else if (dice1 == 6 && dice2 == 6) {
 			System.out.println("Boxcars!");
 		}
 
 	}
-
-	// getDiceRoll Method - Creates a random number 1-6 and returns it.
-	private static int getDiceRoll() {
-		return (int) (Math.random() * 6) + 1;
-	}
-
 }
