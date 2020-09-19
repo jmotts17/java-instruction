@@ -35,5 +35,6 @@ public class ProductApp {
 			choice = sc.nextLine();
 			System.out.println();
 		}
+		System.out.println("Created " + Product.getInstanceCount() + " instances of Product.");
 	}
 }

@@ -2,15 +2,21 @@ import java.text.NumberFormat;
 
 public class Product {
 
+	// Fields, aka member varaibles, aka instance variables
 	private String code;
 	private String description;
 	private double price;
+
+	// Static variables
+	private static int instanceCount = 0;
 
 	// Default Constructor
 	public Product() {
 		code = "";
 		description = "";
 		price = 0;
+
+		instanceCount++;
 	}
 
 	// Constructor with 3 params
@@ -18,6 +24,8 @@ public class Product {
 		this.code = code;
 		this.description = description;
 		this.price = price;
+
+		instanceCount++;
 	}
 
 	// Getters and Setters
@@ -56,5 +64,10 @@ public class Product {
 		decimal.setMinimumFractionDigits(2);
 		decimal.setMaximumFractionDigits(2);
 		return decimal.format(price);
+	}
+
+	// Static methods
+	public static int getInstanceCount() {
+		return instanceCount;
 	}
 }
