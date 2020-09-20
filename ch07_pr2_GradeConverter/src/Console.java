@@ -11,13 +11,14 @@ public class Console {
 		return s;
 	}
 
+	// Overloaded getString Method
 	public static String getString(String prompt, String value1, String value2) {
 		String s;
 		do {
 			System.out.print(prompt);
 			s = sc.next(); // read user entry
 			sc.nextLine(); // discard any other data entered on the line
-			if (s.isEmpty() || !s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
+			if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
 				System.out.println("Error! Entry must be 'y' or 'n'. Try agian.");
 			}
 		} while (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2));
