@@ -1,11 +1,6 @@
-import java.util.Scanner;
-
 public class ContactListApp {
 
 	public static void main(String[] args) {
-
-		// Create scanner object
-		Scanner scanner = new Scanner(System.in);
 
 		// Output welcome message
 		System.out.println("Welcome to the Contact List Application");
