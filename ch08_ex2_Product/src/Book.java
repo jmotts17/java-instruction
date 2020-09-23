@@ -17,7 +17,12 @@ public class Book extends Product {
 	}
 
 	@Override
-	public String getDisplayText() {
+	public String toString() {
 		return super.toString() + " by " + author;
+	}
+
+	@Override
+	public String getDisplayText() {
+		return toString();
 	}
 }
