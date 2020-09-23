@@ -16,9 +16,12 @@ public class Console {
 		String s;
 		do {
 			System.out.print(prompt);
-			s = sc.next(); // read user entry
-			sc.nextLine(); // discard any other data entered on the line
-			if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
+			s = sc.nextLine(); // read user entry
+
+			// Provides error message if response is empty or not 'y' or 'n'
+			if (s.trim().isEmpty()) {
+				System.out.println("Error! This entry is required. Try again.");
+			} else if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
 				System.out.println("Error! Entry must be 'y' or 'n'. Try agian.");
 			}
 		} while (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2));
