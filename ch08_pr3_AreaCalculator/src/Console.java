@@ -22,7 +22,7 @@ public class Console {
 			if (s.trim().isEmpty()) {
 				System.out.println("Error! This entry is required. Try again.");
 			} else if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
-				System.out.println("Error! Entry must be '" + value1 + "' or '" + value2 + "'. Try agian.");
+				System.out.println("Error! Entry must be '" + value1 + "' or '" + value2 + "'. Try again.");
 			}
 		} while (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2));
 		return s;
@@ -39,8 +39,8 @@ public class Console {
 			if (s.trim().isEmpty()) {
 				System.out.println("Error! This entry is required. Try again.");
 			} else if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2) && !s.equalsIgnoreCase(value3)) {
-				System.out.println("Error! Entry must be '" + value1 + "' or '" + value2 + "' or '" + value3 + "'."
-						+ "Try agian.");
+				System.out.println(
+						"Error! Entry must be '" + value1 + "' or '" + value2 + "' or '" + value3 + "'. Try again.");
 			}
 		} while (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2) && !s.equalsIgnoreCase(value3));
 		return s;
