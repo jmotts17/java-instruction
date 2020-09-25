@@ -8,17 +8,46 @@ public class PersonManagerApp {
 
 		// Variable Declaration
 		String choice, response;
+		Person previous = null;
+		Customer customer = null;
+		Employee employee = null;
 
 		do {
 			response = Console.getString("\nCreate customer or employee? (c/e): ", "c", "e");
 
-			// Calls correct method basedo n user input
+			// Calls correct method based on user input
 			if (response.equalsIgnoreCase("c")) {
-				Customer customer = createCustomer();
+				customer = createCustomer();
 				System.out.println(customer.toString());
 			} else {
-				Employee employee = createEmployee();
+				employee = createEmployee();
 				System.out.println(employee.toString());
+			}
+
+			// The below statements compare the previous & new entry to see if they are
+			// equal
+			if (previous == null) {
+				if (response.equalsIgnoreCase("c")) {
+					previous = customer;
+				} else {
+					previous = employee;
+				}
+			} else {
+				if (response.equalsIgnoreCase("c")) {
+					if (customer.equals(previous)) {
+						System.out.println("This entry and the last entry are equal.");
+					} else {
+						System.out.println("This entry and the last entry are not equal.");
+					}
+					previous = customer;
+				} else {
+					if (employee.equals(previous)) {
+						System.out.println("This entry and the last entry are equal.");
+					} else {
+						System.out.println("This entry and the last entry are not equal.");
+					}
+					previous = employee;
+				}
 			}
 
 			// Prompts user to continue

@@ -25,4 +25,17 @@ public class Customer extends Person {
 		return super.toString() + "\nCustomer Number: " + this.customerNumber;
 	}
 
+	// Override equals method
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Customer) {
+			Customer customer1 = (Customer) object;
+			if (customerNumber.equals(customer1.getCustomerNumber())
+					&& (super.firstName.equals(customer1.getFirstName())
+							&& (super.lastName.equals(customer1.getLastName())))) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

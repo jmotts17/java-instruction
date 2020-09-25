@@ -12,9 +12,7 @@ public class Employee extends Person {
 
 	// Getters & Setters
 	public String getSsn() {
-		String lastFourDigits = this.ssn.substring(ssn.length() - 4);
-		ssn = "xxx-xx-" + lastFourDigits;
-		return ssn;
+		return this.ssn;
 	}
 
 	public void setSsn(String ssn) {
@@ -24,7 +22,20 @@ public class Employee extends Person {
 	// Override toString method
 	@Override
 	public String toString() {
-		return super.toString() + "\nSSN: " + this.getSsn();
+		return super.toString() + "\nSSN: xxx-xx-" + this.ssn.substring(ssn.length() - 4);
+	}
+
+	// Override equals method
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Employee) {
+			Employee employee1 = (Employee) object;
+			if (ssn.equals(employee1.getSsn()) && super.firstName.equals(employee1.getFirstName())
+					&& super.firstName.equals(employee1.getLastName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
