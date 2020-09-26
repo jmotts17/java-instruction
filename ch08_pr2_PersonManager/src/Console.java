@@ -18,11 +18,11 @@ public class Console {
 			System.out.print(prompt);
 			s = sc.nextLine(); // read user entry
 
-			// Provides error message if response is empty or not 'y' or 'n'
+			// Provides error message if response is empty or does not match passed values
 			if (s.trim().isEmpty()) {
 				System.out.println("Error! This entry is required. Try again.");
 			} else if (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2)) {
-				System.out.println("Error! Entry must be '" + value1 + "' or '" + value2 + "'. Try agian.");
+				System.out.println("Error! Entry must be '" + value1 + "' or '" + value2 + "'. Try again.");
 			}
 		} while (!s.equalsIgnoreCase(value1) && !s.equalsIgnoreCase(value2));
 		return s;
