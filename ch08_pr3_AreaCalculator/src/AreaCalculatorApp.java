@@ -18,16 +18,19 @@ public class AreaCalculatorApp {
 			switch (response) {
 			// Case c - Calls areaOfCircle method and outputs the return
 			case "c":
+			case "C":
 				area = areaOfCircle("\nEnter raidus: ");
 				System.out.println("\nThe area of the circle you entered is " + area);
 				break;
 			// Case s - Calls areaOfSquare method and outputs the return
 			case "s":
+			case "S":
 				area = areaOfSquare("\nEnter width: ");
 				System.out.println("\nThe area of the square you entered is " + area);
 				break;
 			// Case r - Calls areaOfRectangle method and outputs the return
 			case "r":
+			case "R":
 				area = areaOfRectangle("\nEnter width: ", "Enter height: ");
 				System.out.println("\nThe area of the rectangle you entered is " + area);
 				break;
