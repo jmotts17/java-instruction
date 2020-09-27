@@ -31,7 +31,7 @@ public class Employee extends Person {
 		if (object instanceof Employee) {
 			Employee employee1 = (Employee) object;
 			if (ssn.equals(employee1.getSsn()) && super.firstName.equals(employee1.getFirstName())
-					&& super.firstName.equals(employee1.getLastName())) {
+					&& super.lastName.equals(employee1.getLastName())) {
 				return true;
 			}
 		}

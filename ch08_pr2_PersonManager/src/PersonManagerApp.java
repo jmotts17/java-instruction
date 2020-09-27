@@ -6,9 +6,10 @@ public class PersonManagerApp {
 		// Output Welcome Message
 		System.out.println("Welcome to the Person Manager");
 
-		// Variable Declaration
+		// Variable/Object Declaration
 		String choice, response;
 		Person previous = null;
+		Person current = null;
 		Customer customer = null;
 		Employee employee = null;
 
@@ -19,9 +20,11 @@ public class PersonManagerApp {
 			if (response.equalsIgnoreCase("c")) {
 				customer = createCustomer();
 				System.out.println(customer.toString());
+				current = customer;
 			} else {
 				employee = createEmployee();
 				System.out.println(employee.toString());
+				current = employee;
 			}
 
 			// The below statements compare the previous & new entry to see if they are
@@ -33,21 +36,12 @@ public class PersonManagerApp {
 					previous = employee;
 				}
 			} else {
-				if (response.equalsIgnoreCase("c")) {
-					if (customer.equals(previous)) {
-						System.out.println("This entry and the last entry are equal.");
-					} else {
-						System.out.println("This entry and the last entry are not equal.");
-					}
-					previous = customer;
+				if (current.equals(previous)) {
+					System.out.println("This entry and the last entry are equal.");
 				} else {
-					if (employee.equals(previous)) {
-						System.out.println("This entry and the last entry are equal.");
-					} else {
-						System.out.println("This entry and the last entry are not equal.");
-					}
-					previous = employee;
+					System.out.println("This entry and the last entry are not equal.");
 				}
+				previous = current;
 			}
 
 			// Prompts user to continue
