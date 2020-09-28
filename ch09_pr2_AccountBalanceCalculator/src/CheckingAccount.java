@@ -4,7 +4,11 @@ public class CheckingAccount extends Account {
 	// Field
 	private double monthlyFee;
 
-	// Constructor
+	// Constructors
+	public CheckingAccount() {
+		monthlyFee = 0.0;
+	}
+
 	public CheckingAccount(double balance, double monthlyFee) {
 		setBalance(balance);
 		this.monthlyFee = monthlyFee;

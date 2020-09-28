@@ -4,7 +4,11 @@ public class SavingsAccount extends Account {
 	// Field
 	private double monthlyIntRate;
 
-	// Constructor
+	// Constructors
+	public SavingsAccount() {
+		monthlyIntRate = 0.0;
+	}
+
 	public SavingsAccount(double balance, double monthlyIntRate) {
 		setBalance(balance);
 		this.monthlyIntRate = monthlyIntRate;

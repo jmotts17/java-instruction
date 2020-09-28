@@ -26,9 +26,9 @@ public class AccountBalanceApp {
 
 			// If-Else determines if checking or savings
 			if (cs.equalsIgnoreCase("c")) {
-				checkingAccount(checking, wd, amount);
+				accountTransaction(checking, wd, amount);
 			} else if (cs.equalsIgnoreCase("s")) {
-				savingsAccount(savings, wd, amount);
+				accountTransaction(savings, wd, amount);
 			}
 
 			// Prompts user to continue
@@ -82,32 +82,19 @@ public class AccountBalanceApp {
 	}
 
 	/**
-	 * This method withdraws or deposits the amount in the checking account.
+	 * This method withdraws or deposits the amount to the type of account that is
+	 * passed.
 	 * 
-	 * @param checking
+	 * @param account
 	 * @param wd
 	 * @param amount
 	 */
-	public static void checkingAccount(CheckingAccount checking, String wd, double amount) {
+	public static void accountTransaction(Account account, String wd, double amount) {
 		if (wd.equalsIgnoreCase("w")) {
-			checking.withdraw(amount);
+			account.withdraw(amount);
 		} else if (wd.equalsIgnoreCase("d")) {
-			checking.deposit(amount);
+			account.deposit(amount);
 		}
 	}
 
-	/**
-	 * This method withdraws or deposits into the savings account.
-	 * 
-	 * @param savings
-	 * @param wd
-	 * @param amount
-	 */
-	public static void savingsAccount(SavingsAccount savings, String wd, double amount) {
-		if (wd.equalsIgnoreCase("w")) {
-			savings.withdraw(amount);
-		} else if (wd.equalsIgnoreCase("d")) {
-			savings.deposit(amount);
-		}
-	}
 }
