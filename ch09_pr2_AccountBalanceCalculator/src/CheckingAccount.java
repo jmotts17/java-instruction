@@ -20,7 +20,7 @@ public class CheckingAccount extends Account {
 	}
 
 	// Helper method - withdraws monthly fee from checking account
-	public void subtractMonthlyFee() {
+	public void withdrawMonthlyFee() {
 		withdraw(monthlyFee);
 	}
 

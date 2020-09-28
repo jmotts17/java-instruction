@@ -73,7 +73,7 @@ public class AccountBalanceApp {
 		System.out.println("Savings interest payment: " + formatter.format(savings.getMonthlyIntPayment()));
 
 		// Calls the checking and savings helper methods
-		checking.subtractMonthlyFee();
+		checking.withdrawMonthlyFee();
 		savings.depositMonthlyPayment();
 
 		System.out.println("\nFinal Balances");
