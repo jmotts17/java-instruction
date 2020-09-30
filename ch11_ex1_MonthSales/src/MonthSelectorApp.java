@@ -19,9 +19,10 @@ public class MonthSelectorApp {
 		while (choice.equalsIgnoreCase("y")) {
 			// get the input from the user
 			int monthNumber = Console.getInt("Enter month number: ");
+			monthNumber--;
 
 			// validate input
-			if (monthNumber < 1 || monthNumber > monthName.length) {
+			if (monthNumber < 0 || monthNumber > monthName.length) {
 				Console.displayLine("Invalid month number. Try again.");
 				continue;
 			}
