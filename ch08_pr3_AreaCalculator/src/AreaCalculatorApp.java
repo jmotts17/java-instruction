@@ -5,7 +5,9 @@ public class AreaCalculatorApp {
 
 		// Variable Declaration
 		String choice, response;
-		double area;
+		Circle circle;
+		Square square;
+		Rectangle rectangle;
 
 		// Output welcome message
 		System.out.println("Welcome to the Area Calculator");
@@ -16,23 +18,26 @@ public class AreaCalculatorApp {
 					"r");
 
 			switch (response) {
-			// Case c - Calls areaOfCircle method and outputs the return
+			// Case c - Calls create circle method and outputs the area and perimeter
 			case "c":
 			case "C":
-				area = areaOfCircle("\nEnter raidus: ");
-				System.out.println("\nThe area of the circle you entered is " + area);
+				circle = createCircle("\nEnter radius: ");
+				System.out.println("\nThe area of the circle you entered is " + circle.getArea());
+				System.out.println("The perimeter of the circle you entered is " + circle.getPerimeter());
 				break;
-			// Case s - Calls areaOfSquare method and outputs the return
+			// Case s - Calls create square method and outputs the area and perimeter
 			case "s":
 			case "S":
-				area = areaOfSquare("\nEnter width: ");
-				System.out.println("\nThe area of the square you entered is " + area);
+				square = createSquare("\nEnter width: ");
+				System.out.println("\nThe area of the square you entered is " + square.getArea());
+				System.out.println("The perimeter of the square you entered is " + square.getPerimeter());
 				break;
-			// Case r - Calls areaOfRectangle method and outputs the return
+			// Case r - Calls create rectangle method and outputs the area and perimeter
 			case "r":
 			case "R":
-				area = areaOfRectangle("\nEnter width: ", "Enter height: ");
-				System.out.println("\nThe area of the rectangle you entered is " + area);
+				rectangle = createRectangle("\nEnter width: ", "Enter height: ");
+				System.out.println("\nThe area of the rectangle you entered is " + rectangle.getArea());
+				System.out.println("The perimeter of the rectangle you entered is " + rectangle.getPerimeter());
 				break;
 			}
 
@@ -45,24 +50,24 @@ public class AreaCalculatorApp {
 	 * Prompts user to enter a radius. Creates a circle using the radius.
 	 * 
 	 * @param prompt
-	 * @return the circles area.
+	 * @return circle
 	 */
-	public static double areaOfCircle(String prompt) {
+	public static Circle createCircle(String prompt) {
 		double radius = Console.getDouble(prompt);
 		Circle circle = new Circle(radius);
-		return circle.getArea();
+		return circle;
 	}
 
 	/**
 	 * Prompts the user to enter a width. Creates a square using the width.
 	 * 
 	 * @param prompt
-	 * @return the squares area.
+	 * @return square
 	 */
-	public static double areaOfSquare(String prompt) {
+	public static Square createSquare(String prompt) {
 		double width = Console.getDouble(prompt);
 		Square square = new Square(width);
-		return square.getArea();
+		return square;
 	}
 
 	/**
@@ -71,13 +76,13 @@ public class AreaCalculatorApp {
 	 * 
 	 * @param prompt1
 	 * @param prompt2
-	 * @return the rectangles area.
+	 * @return rectangle
 	 */
-	public static double areaOfRectangle(String prompt1, String prompt2) {
+	public static Rectangle createRectangle(String prompt1, String prompt2) {
 		double width = Console.getDouble(prompt1);
 		double height = Console.getDouble(prompt2);
 		Rectangle rectangle = new Rectangle(width, height);
-		return rectangle.getArea();
+		return rectangle;
 	}
 
 }

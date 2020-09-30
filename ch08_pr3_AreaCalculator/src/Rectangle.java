@@ -25,4 +25,9 @@ public class Rectangle extends Square {
 		return (super.getWidth() * this.height);
 	}
 
+	// Override of abstract method getPerimeter
+	@Override
+	public double getPerimeter() {
+		return 2 * super.getWidth() + 2 * this.height;
+	}
 }
