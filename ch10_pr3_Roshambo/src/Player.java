@@ -4,6 +4,7 @@ public abstract class Player {
 	// Fields
 	private String name;
 	private RoshamboEnum roshVal;
+	protected int score;
 
 	// Constructors
 	public Player() {
@@ -32,6 +33,14 @@ public abstract class Player {
 
 	public void setRoshVal(RoshamboEnum roshVal) {
 		this.roshVal = roshVal;
+	}
+
+	public int getScore() {
+		return this.score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }
