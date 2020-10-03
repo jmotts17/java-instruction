@@ -6,7 +6,7 @@ public class MonthSelectorApp {
 		System.out.println("Monthly Sales\n");
 
 		// declare monthNames and monthSales arrays
-		String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+		String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 				"October", "November", "December" };
 
 		double[] monthSales = { 10000, 15000, 12500, 14000, 17000, 20000, 18500, 25000, 30000, 27000, 32000, 31500 };
@@ -22,14 +22,15 @@ public class MonthSelectorApp {
 			monthNumber--;
 
 			// validate input
-			if (monthNumber < 0 || monthNumber > monthName.length) {
+			if (monthNumber < 0 || monthNumber > monthNames.length) {
 				Console.displayLine("Invalid month number. Try again.");
 				continue;
 			}
 
 			// get the index number for the month
 			// and display the month name and sales
-			System.out.println("Sales for " + monthName[monthNumber] + ": " + currency.format(monthSales[monthNumber]));
+			System.out
+					.println("Sales for " + monthNames[monthNumber] + ": " + currency.format(monthSales[monthNumber]));
 
 			// check if the user wants to continue
 			choice = Console.getString("\nContinue? (y/n): ");
