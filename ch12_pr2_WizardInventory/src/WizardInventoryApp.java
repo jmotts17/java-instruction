@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class WizardInventoryApp {
+
+	private static final int MAX_INVENTORY_SIZE = 4;
 
 	public static void main(String[] args) {
 
@@ -8,7 +11,7 @@ public class WizardInventoryApp {
 		String choice;
 
 		// Create a Wizard Inventory and add 3 items
-		ArrayList<String> inventory = new ArrayList<>();
+		List<String> inventory = new ArrayList<>();
 		inventory.add("wooden staff");
 		inventory.add("wizard hat");
 		inventory.add("cloth shoes");
@@ -62,7 +65,12 @@ public class WizardInventoryApp {
 	 * 
 	 * @param inventory
 	 */
-	private static void showInventory(ArrayList<String> inventory) {
+	private static void showInventory(List<String> inventory) {
+		if (inventory.size() == 0) {
+			System.out.println("Inventory is empty");
+			return;
+		}
+
 		for (int i = 0; i <= inventory.size() - 1; i++) {
 			int count = i + 1;
 			System.out.println(count + ". " + inventory.get(i));
@@ -74,17 +82,15 @@ public class WizardInventoryApp {
 	 * if the inventory already has 4 items.
 	 * 
 	 * @param inventory
-	 * @return
 	 */
-	private static ArrayList<String> grabItem(ArrayList<String> inventory) {
-		if (inventory.size() >= 4) {
+	private static void grabItem(List<String> inventory) {
+		if (inventory.size() >= MAX_INVENTORY_SIZE) {
 			System.out.println("You can't carry any more items. Drop something first.");
 		} else {
 			String newItem = Console.getString("Name: ");
 			inventory.add(newItem);
 			System.out.println(newItem + " was added.");
 		}
-		return inventory;
 	}
 
 	/**
@@ -92,15 +98,18 @@ public class WizardInventoryApp {
 	 * a confirmation if the item is successfully edited.
 	 * 
 	 * @param inventory
-	 * @return
 	 */
-	private static ArrayList<String> editItem(ArrayList<String> inventory) {
+	private static void editItem(List<String> inventory) {
+		if (inventory.size() == 0) {
+			System.out.println("No items to edit. Please grab an item.");
+			return;
+		}
+
 		int itemIndex = Console.getInt("Number: ", 0, 5);
 		int itemNumber = itemIndex--;
 		String updatedItem = Console.getString("Updated name: ");
 		inventory.set(itemIndex, updatedItem);
 		System.out.println("Item number " + itemNumber + " was updated.");
-		return inventory;
 	}
 
 	/**
@@ -111,12 +120,15 @@ public class WizardInventoryApp {
 	 * @param inventory
 	 * @return
 	 */
-	private static ArrayList<String> dropItem(ArrayList<String> inventory) {
+	private static void dropItem(List<String> inventory) {
+		if (inventory.size() == 0) {
+			System.out.println("No items to drop. Please grab an item.");
+			return;
+		}
+
 		int itemIndex = Console.getInt("Number: ", 0, 5);
 		itemIndex--;
 		String itemRemoved = inventory.remove(itemIndex);
 		System.out.println(itemRemoved + " was dropped.");
-		return inventory;
 	}
-
 }
