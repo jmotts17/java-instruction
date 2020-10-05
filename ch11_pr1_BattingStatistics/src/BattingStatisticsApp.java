@@ -19,9 +19,9 @@ public class BattingStatisticsApp {
 			System.out.println("\n0 = out, 1 = single, 2 = double, 3 = triple, 4 = home run");
 
 			int[] atBatResults = new int[timesAtBat];
+			int atBatCount = 1;
 
 			for (int i = 0; i < timesAtBat; i++) {
-				int atBatCount = 1;
 				int atBatResult = Console.getInt("Result for at-bat " + atBatCount + ": ", -1, 5);
 				atBatResults[i] = atBatResult;
 				atBatCount++;
@@ -33,7 +33,7 @@ public class BattingStatisticsApp {
 			response = Console.getString("\nAnother player? (y/n): ", "y", "n");
 		} while (response.equalsIgnoreCase("y"));
 
-		System.out.println("Bye");
+		System.out.println("\nBye");
 	}
 
 	public static void CalculateBattingAverage(int[] atBatResults, NumberFormat formatter) {
