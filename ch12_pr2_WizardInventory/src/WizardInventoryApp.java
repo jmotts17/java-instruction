@@ -20,7 +20,7 @@ public class WizardInventoryApp {
 			displayMenu();
 			choice = Console.getString("\nCommand: ");
 
-			switch (choice) {
+			switch (choice.toLowerCase()) {
 			case "show":
 				showInventory(inventory);
 				break;
@@ -48,7 +48,7 @@ public class WizardInventoryApp {
 	/**
 	 * Outputs the menu to the user.
 	 */
-	public static void displayMenu() {
+	private static void displayMenu() {
 		System.out.println("\nCOMMAND MENU");
 		System.out.println("show - Show all items");
 		System.out.println("grab - Grab an item");
@@ -62,7 +62,7 @@ public class WizardInventoryApp {
 	 * 
 	 * @param inventory
 	 */
-	public static void showInventory(ArrayList<String> inventory) {
+	private static void showInventory(ArrayList<String> inventory) {
 		for (int i = 0; i <= inventory.size() - 1; i++) {
 			int count = i + 1;
 			System.out.println(count + ". " + inventory.get(i));
@@ -76,7 +76,7 @@ public class WizardInventoryApp {
 	 * @param inventory
 	 * @return
 	 */
-	public static ArrayList<String> grabItem(ArrayList<String> inventory) {
+	private static ArrayList<String> grabItem(ArrayList<String> inventory) {
 		if (inventory.size() >= 4) {
 			System.out.println("You can't carry any more items. Drop something first.");
 		} else {
@@ -94,7 +94,7 @@ public class WizardInventoryApp {
 	 * @param inventory
 	 * @return
 	 */
-	public static ArrayList<String> editItem(ArrayList<String> inventory) {
+	private static ArrayList<String> editItem(ArrayList<String> inventory) {
 		int itemIndex = Console.getInt("Number: ", 0, 5);
 		int itemNumber = itemIndex--;
 		String updatedItem = Console.getString("Updated name: ");
@@ -111,7 +111,7 @@ public class WizardInventoryApp {
 	 * @param inventory
 	 * @return
 	 */
-	public static ArrayList<String> dropItem(ArrayList<String> inventory) {
+	private static ArrayList<String> dropItem(ArrayList<String> inventory) {
 		int itemIndex = Console.getInt("Number: ", 0, 5);
 		itemIndex--;
 		String itemRemoved = inventory.remove(itemIndex);
