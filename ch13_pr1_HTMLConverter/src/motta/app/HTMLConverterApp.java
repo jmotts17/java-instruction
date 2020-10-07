@@ -24,7 +24,7 @@ public class HTMLConverterApp {
 		for (int i = 0; i < groceryListArr.length; i++) {
 			if (groceryListArr[i].trim().isEmpty()) {
 				continue;
-			} else if (groceryListArr[i].contains("List")) {
+			} else if (groceryListArr[i].contains("Grocery List")) {
 				System.out.println(groceryListArr[i]);
 			} else {
 				System.out.println("* " + groceryListArr[i].trim());
