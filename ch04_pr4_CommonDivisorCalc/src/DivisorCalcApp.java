@@ -1,11 +1,6 @@
-import java.util.Scanner;
-
 public class DivisorCalcApp {
 
 	public static void main(String[] args) {
-
-		// Create Scanner Object
-		Scanner scanner = new Scanner(System.in);
 
 		// Variable Declaration
 		String choice = "";
@@ -16,28 +11,32 @@ public class DivisorCalcApp {
 		do {
 
 			// Prompt user for input
-			System.out.print("\nEnter first number: ");
-			int num1 = scanner.nextInt();
-			System.out.print("Enter second number: ");
-			int num2 = scanner.nextInt();
+			int num1 = Console.getInt("\nEnter first number: ");
+			int num2 = Console.getInt("Enter second number: ");
 
-			// Calculate GCD
-			while (num1 != num2) {
-				if (num1 > num2) {
-					num1 = num1 - num2;
-				} else {
-					num2 = num2 - num1;
-				}
-			}
+			// Call calculateGCD method
+			int gcd = calculateGreatestCommonDivisor(num1, num2);
 
 			// Output results
-			System.out.println("Greatest Common Divisor: " + num2);
+			System.out.println("Greatest Common Divisor: " + gcd);
 
 			// Prompt user to continue
-			System.out.print("\nContinue? (y/n): ");
-			choice = scanner.next();
+			choice = Console.getString("\nContinue? (y/n): ", "y", "n");
 		} while (choice.equalsIgnoreCase("y"));
 
+	}
+
+	// Calculate GCD
+	private static int calculateGreatestCommonDivisor(int num1, int num2) {
+		while (num1 != num2) {
+			if (num1 > num2) {
+				num1 = num1 - num2;
+			} else {
+				num2 = num2 - num1;
+			}
+		}
+
+		return num2;
 	}
 
 }
