@@ -35,13 +35,13 @@ public class EmailCreatorApp {
 			StringBuilder newTemplate = new StringBuilder();
 			newTemplate.append(template);
 
-			// Stores the first letter of the persons first name
-			char firstLetter = persons[i].getFirstName().charAt(0);
-			// Stores a capitalized version of the firstLetter
-			char firstLetterUpper = Character.toUpperCase(firstLetter);
+			// Creates a string to store the first letter of the first name as an upper case
+			String firstLetterUpper = persons[i].getFirstName().substring(0, 1).toUpperCase();
+			// Concatenates the upper case letter to the first name
+			String firstName = firstLetterUpper + persons[i].getFirstName().substring(1);
 
 			// Replaces the first name and email with the persons first name and email
-			newTemplate.replace(64, 76, persons[i].getFirstName().replace(firstLetter, firstLetterUpper));
+			newTemplate.replace(64, 76, firstName);
 			newTemplate.replace(9, 16, persons[i].getEmail());
 
 			// Outputs the results
