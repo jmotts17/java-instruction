@@ -8,48 +8,58 @@ import java.util.ArrayList;
 
 public class Invoice {
 
-    // the instance variables
-    private ArrayList<LineItem> lineItems;
-    private LocalDateTime invoiceDate;
-    
-    // the constructor
-    public Invoice() {
-        lineItems = new ArrayList<>();
-        invoiceDate = LocalDateTime.now();
-    }
+	// the instance variables
+	private ArrayList<LineItem> lineItems;
+	private LocalDateTime invoiceDate;
 
-    public void addItem(LineItem lineItem) {
-        lineItems.add(lineItem);
-    }
+	// the constructor
+	public Invoice() {
+		lineItems = new ArrayList<>();
+		invoiceDate = LocalDateTime.now();
+	}
 
-    public ArrayList<LineItem> getLineItems() {
-        return lineItems;
-    }
+	public void addItem(LineItem lineItem) {
+		lineItems.add(lineItem);
+	}
 
-    public double getTotal() {
-        double invoiceTotal = 0;
-        for (LineItem lineItem : lineItems) {
-            invoiceTotal += lineItem.getTotal();
-        }
-        return invoiceTotal;
-    }
+	public ArrayList<LineItem> getLineItems() {
+		return lineItems;
+	}
 
-    public String getTotalFormatted() {
-        NumberFormat currency = NumberFormat.getCurrencyInstance();
-        return currency.format(getTotal());
-    }
-    
-    public void setInvoiceDate(LocalDateTime invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
+	public double getTotal() {
+		double invoiceTotal = 0;
+		for (LineItem lineItem : lineItems) {
+			invoiceTotal += lineItem.getTotal();
+		}
+		return invoiceTotal;
+	}
 
-    public LocalDateTime getInvoiceDate() {
-        return invoiceDate;
-    }
+	public String getTotalFormatted() {
+		NumberFormat currency = NumberFormat.getCurrencyInstance();
+		return currency.format(getTotal());
+	}
 
-    public String getInvoiceDateFormatted() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(
-                FormatStyle.SHORT);        
-        return dtf.format(invoiceDate);
-    }    
+	public void setInvoiceDate(LocalDateTime invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	public LocalDateTime getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public String getInvoiceDateFormatted() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+		return dtf.format(invoiceDate);
+	}
+
+	public LocalDateTime getDueDate() {
+		LocalDateTime current = getInvoiceDate();
+		return current.plusDays(30);
+	}
+
+	public String getDueDateFormatted() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+		return dtf.format(getDueDate());
+	}
+
 }
