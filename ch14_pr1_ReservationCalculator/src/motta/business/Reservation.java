@@ -1,4 +1,4 @@
-package motta.app;
+package motta.business;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 public class Reservation {
 
 	// Field declarations
-	private final Double nightlyRate = 145.00;
+	private final Double NIGHTLY_RATE = 145.00;
 	private LocalDate arrivalDate;
 	private LocalDate departureDate;
 
@@ -58,12 +58,12 @@ public class Reservation {
 	public String getPricePerNightFormatted() {
 		NumberFormat currency = NumberFormat.getCurrencyInstance();
 		currency.setMinimumIntegerDigits(2);
-		return currency.format(nightlyRate);
+		return currency.format(NIGHTLY_RATE);
 	}
 
 	// Calculates the total price based on number of nights and nightly rate
 	public double getTotalPrice() {
-		return getNumberOfNights() * nightlyRate;
+		return getNumberOfNights() * NIGHTLY_RATE;
 	}
 
 	// Returns the total price with a currency format

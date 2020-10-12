@@ -2,6 +2,9 @@ package motta.app;
 
 import java.time.LocalDate;
 
+import motta.business.Reservation;
+import motta.ui.Console;
+
 public class ReservationCalcApp {
 
 	public static void main(String[] args) {
@@ -38,7 +41,7 @@ public class ReservationCalcApp {
 	public static LocalDate arrivalInfo() {
 		int month = Console.getInt("\nEnter the arrival month (1-12): ", 0, 13);
 		int day = Console.getInt("Enter the arrival day (1-31): ", 0, 32);
-		int year = Console.getInt("Enter the arrival year: ");
+		int year = Console.getInt("Enter the arrival year: ", 2019, 2100);
 
 		return LocalDate.of(year, month, day);
 	}
@@ -46,12 +49,12 @@ public class ReservationCalcApp {
 	/**
 	 * Prompts the user for the departure month, day, and year.
 	 * 
-	 * @return LocalDate Arrival Info
+	 * @return LocalDate departure Info
 	 */
 	public static LocalDate departureInfo() {
-		int month = Console.getInt("\nEnter the arrival month (1-12): ", 0, 13);
-		int day = Console.getInt("Enter the arrival day (1-31): ", 0, 32);
-		int year = Console.getInt("Enter the arrival year: ");
+		int month = Console.getInt("\nEnter the departure month (1-12): ", 0, 13);
+		int day = Console.getInt("Enter the departure day (1-31): ", 0, 32);
+		int year = Console.getInt("Enter the departure year: ", 2019, 2100);
 
 		return LocalDate.of(year, month, day);
 	}
@@ -62,7 +65,6 @@ public class ReservationCalcApp {
 	 * @param reservation
 	 */
 	public static void travelInfo(Reservation reservation) {
-
 		System.out.println("\nArrival Date: " + reservation.getArrivalDateFormatted());
 		System.out.println("Departure Date: " + reservation.getDepartureDateFormatted());
 		System.out.println("Price: " + reservation.getPricePerNightFormatted() + " per night");

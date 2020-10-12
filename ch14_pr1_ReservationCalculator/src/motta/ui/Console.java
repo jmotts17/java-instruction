@@ -1,4 +1,4 @@
-package motta.app;
+package motta.ui;
 
 import java.util.Scanner;
 
