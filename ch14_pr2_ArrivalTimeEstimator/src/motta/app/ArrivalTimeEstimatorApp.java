@@ -1,6 +1,7 @@
 package motta.app;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -36,13 +37,17 @@ public class ArrivalTimeEstimatorApp {
 			int hours = (int) Math.floor(miles / mph);
 			int minutes = (int) (((miles / mph) * 60) % 60);
 
-			// Calculate estimated arrival time
-			LocalTime arrivalTime = departureTime.plusHours(hours).plusMinutes(minutes);
-			String arrivalTimeFormatted = timeFormatter.format(arrivalTime);
+			// Create LocalDateTime based on departureDate and departureTime
+			LocalDateTime arrivalInfo = LocalDateTime.of(departureDate, departureTime);
+			arrivalInfo = arrivalInfo.plusHours(hours).plusMinutes(minutes);
 
-			// Calculate estimated arrival date
-			LocalDate arrivalDate = getLocalDate(arrivalTime, departureDate, departureTime);
-			String arrivalDateFormatted = dateFormatter.format(arrivalDate);
+			// Creates a LocalDate based on arrivalInfo date
+			LocalDate arrivalDate = arrivalInfo.toLocalDate();
+			String arrivalDateFormatted = dateFormatter.format(arrivalDate); // formats arrival date for output
+
+			// Creates a LocalTime based on arrivalInfo time
+			LocalTime arrivalTime = arrivalInfo.toLocalTime();
+			String arrivalTimeFormatted = timeFormatter.format(arrivalTime); // formats arrival time for output
 
 			// Output results
 			outputResults(hours, minutes, arrivalDateFormatted, arrivalTimeFormatted);
@@ -51,7 +56,7 @@ public class ArrivalTimeEstimatorApp {
 			choice = Console.getString("\nContinue? (y/n): ", "y", "n");
 		} while (choice.equalsIgnoreCase("y"));
 
-		System.out.println("Bye!");
+		System.out.println("\nBye!");
 	}
 
 	/**
@@ -71,20 +76,4 @@ public class ArrivalTimeEstimatorApp {
 		System.out.println("Estimated time of arrival: " + arrivalTime);
 	}
 
-	/**
-	 * If arrival time is before departure time, returns departureDay + 1. Otherwise
-	 * returns departureDate as it is the same day.
-	 * 
-	 * @param arrivalTime
-	 * @param departureDate
-	 * @param departureTime
-	 * @return LocaleDate / Arrival Date
-	 */
-	public static LocalDate getLocalDate(LocalTime arrivalTime, LocalDate departureDate, LocalTime departureTime) {
-		if (arrivalTime.isBefore(departureTime)) {
-			return departureDate.plusDays(1);
-		} else {
-			return departureDate;
-		}
-	}
 }
