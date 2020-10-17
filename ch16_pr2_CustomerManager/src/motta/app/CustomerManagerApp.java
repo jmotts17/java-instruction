@@ -23,7 +23,7 @@ public class CustomerManagerApp {
 			customerDAO = new CustomerTextFile();
 		} catch (IOException e) {
 			System.err.println("Error reading data file! Exiting application");
-			e.getMessage();
+			System.err.println(e.getMessage());
 			System.exit(0);
 		}
 
@@ -34,7 +34,7 @@ public class CustomerManagerApp {
 		String action = "";
 		while (!action.equalsIgnoreCase("exit")) {
 			// get the input from the user
-			action = Console.getString("Enter a command: ");
+			action = Console.getString("\nEnter a command: ");
 			System.out.println();
 
 			if (action.equalsIgnoreCase("list")) {
@@ -70,7 +70,8 @@ public class CustomerManagerApp {
 		try {
 			customers = customerDAO.getAll();
 		} catch (IOException e) {
-			System.out.println("Error.");
+			System.out.println("Error displaying customers.");
+			return;
 		}
 
 		Customer c;
@@ -97,7 +98,8 @@ public class CustomerManagerApp {
 		try {
 			customerDAO.add(customer);
 		} catch (IOException e) {
-			System.out.println("Error.");
+			System.out.println("Error adding customer.");
+			return;
 		}
 
 		System.out.println();
@@ -112,7 +114,8 @@ public class CustomerManagerApp {
 		try {
 			c = customerDAO.get(email);
 		} catch (IOException e) {
-			System.out.println("Error finding customer. Try again.");
+			System.out.println("Error retrieving customer.");
+			return;
 		}
 
 		System.out.println();
@@ -120,7 +123,8 @@ public class CustomerManagerApp {
 			try {
 				customerDAO.delete(c);
 			} catch (IOException e) {
-				System.out.println("Error.");
+				System.out.println("Error deleting customer.");
+				return;
 			}
 			System.out.println(c.getName() + " has been deleted.\n");
 		} else {

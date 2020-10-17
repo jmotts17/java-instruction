@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public final class CustomerTextFile implements DAO<Customer> {
 		// initialize the class variables
 		customersPath = Paths.get("Customers.txt");
 		customersFile = customersPath.toFile();
-		customers = this.getAll();
+		getAll();
 	}
 
 	@Override
@@ -36,27 +35,20 @@ public final class CustomerTextFile implements DAO<Customer> {
 		}
 
 		customers = new ArrayList<>();
-		if (Files.exists(customersPath)) {
-			try (BufferedReader in = new BufferedReader(new FileReader(customersFile))) {
-				String line = in.readLine();
-				while (line != null) {
-					String[] fields = line.split(FIELD_SEP);
-					String firstName = fields[0];
-					String lastName = fields[1];
-					String email = fields[2];
 
-					Customer c = new Customer(firstName, lastName, email);
-					customers.add(c);
+		try (BufferedReader in = new BufferedReader(new FileReader(customersFile))) {
+			String line = in.readLine();
+			while (line != null) {
+				String[] fields = line.split(FIELD_SEP);
+				String firstName = fields[0];
+				String lastName = fields[1];
+				String email = fields[2];
 
-					line = in.readLine();
-				}
-			} catch (IOException e) {
-				System.out.println(e);
-				return null;
+				Customer c = new Customer(firstName, lastName, email);
+				customers.add(c);
+
+				line = in.readLine();
 			}
-		} else {
-			System.out.println(customersPath.toAbsolutePath() + " doesn't exist.");
-			return null;
 		}
 
 		// load the array list with Customer objects created from
@@ -76,12 +68,18 @@ public final class CustomerTextFile implements DAO<Customer> {
 
 	@Override
 	public boolean add(Customer c) throws IOException {
+		if (true) {
+			throw new IOException("Testing");
+		}
 		customers.add(c);
 		return this.saveAll();
 	}
 
 	@Override
 	public boolean delete(Customer c) throws IOException {
+		if (true) {
+			throw new IOException("Testing");
+		}
 		customers.remove(c);
 		return this.saveAll();
 	}
@@ -108,7 +106,7 @@ public final class CustomerTextFile implements DAO<Customer> {
 				out.println(c.getEmail());
 			}
 		} catch (IOException e) {
-			System.out.println(e);
+			System.out.println("IOException in saveAll(). " + e);
 			return false;
 		}
 		return true;
