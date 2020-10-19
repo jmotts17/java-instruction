@@ -6,6 +6,7 @@ import java.util.List;
 import motta.business.Customer;
 import motta.business.CustomerTextFile;
 import motta.business.DAO;
+import motta.business.NoSuchCustomerException;
 import motta.business.StringUtils;
 import motta.ui.Console;
 
@@ -59,7 +60,7 @@ public class CustomerManagerApp {
 		System.out.println("add     - Add a customer");
 		System.out.println("del     - Delete a customer");
 		System.out.println("help    - Show this menu");
-		System.out.println("exit    - Exit this application\n");
+		System.out.println("exit    - Exit this application");
 	}
 
 	public static void displayAllCustomers() {
@@ -82,7 +83,7 @@ public class CustomerManagerApp {
 			sb.append(c.getEmail());
 			sb.append("\n");
 		}
-		System.out.println(sb.toString());
+		System.out.print(sb.toString());
 	}
 
 	public static void addCustomer() {
@@ -103,7 +104,7 @@ public class CustomerManagerApp {
 		}
 
 		System.out.println();
-		System.out.println(firstName + " " + lastName + " has been added.\n");
+		System.out.println(firstName + " " + lastName + " has been added.");
 	}
 
 	public static void deleteCustomer() {
@@ -113,12 +114,14 @@ public class CustomerManagerApp {
 
 		try {
 			c = customerDAO.get(email);
+		} catch (NoSuchCustomerException e) {
+			System.out.println("Customer doesn't exist.");
 		} catch (IOException e) {
 			System.out.println("Error retrieving customer.");
 			return;
 		}
 
-		System.out.println();
+//		System.out.println();
 		if (c != null) {
 			try {
 				customerDAO.delete(c);
@@ -126,9 +129,7 @@ public class CustomerManagerApp {
 				System.out.println("Error deleting customer.");
 				return;
 			}
-			System.out.println(c.getName() + " has been deleted.\n");
-		} else {
-			System.out.println("No customer matches that email.\n");
+			System.out.println(c.getName() + " has been deleted.");
 		}
 	}
 }

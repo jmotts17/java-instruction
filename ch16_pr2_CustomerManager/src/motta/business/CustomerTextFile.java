@@ -57,35 +57,35 @@ public final class CustomerTextFile implements DAO<Customer> {
 	}
 
 	@Override
-	public Customer get(String email) throws IOException {
+	public Customer get(String email) throws NoSuchCustomerException, IOException {
 		for (Customer c : customers) {
 			if (c.getEmail().equals(email)) {
 				return c;
 			}
 		}
-		return null;
+		throw new NoSuchCustomerException();
 	}
 
 	@Override
 	public boolean add(Customer c) throws IOException {
-		if (true) {
-			throw new IOException("Testing");
-		}
+//		if (true) {
+//			throw new IOException("Testing");
+//		}
 		customers.add(c);
 		return this.saveAll();
 	}
 
 	@Override
 	public boolean delete(Customer c) throws IOException {
-		if (true) {
-			throw new IOException("Testing");
-		}
+//		if (true) {
+//			throw new IOException("Testing");
+//		}
 		customers.remove(c);
 		return this.saveAll();
 	}
 
 	@Override
-	public boolean update(Customer newCustomer) throws IOException {
+	public boolean update(Customer newCustomer) throws NoSuchCustomerException, IOException {
 		// get the old customer and remove it
 		Customer oldCustomer = this.get(newCustomer.getEmail());
 		int i = customers.indexOf(oldCustomer);
