@@ -115,7 +115,7 @@ public class CustomerManagerApp {
 		try {
 			c = customerDAO.get(email);
 		} catch (NoSuchCustomerException e) {
-			System.out.println("Customer doesn't exist.");
+			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println("Error retrieving customer.");
 			return;
