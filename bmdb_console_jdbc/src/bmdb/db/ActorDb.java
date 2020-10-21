@@ -13,6 +13,12 @@ import bmdb.business.Actor;
 
 public class ActorDb {
 
+	/**
+	 * Creates a connection with the database.
+	 * 
+	 * @return Connection
+	 * @throws SQLException
+	 */
 	private Connection getConnection() throws SQLException {
 		String dbURL = "jdbc:mysql://localhost:3306/bmdb?useSSL=false&allowPublicKeyRetrieval=true";
 		String username = "bmdb_user";
@@ -23,6 +29,28 @@ public class ActorDb {
 		return connection;
 	}
 
+	/**
+	 * Creates & Returns an actor object based on the result set.
+	 * 
+	 * @param rs
+	 * @return Actor
+	 * @throws SQLException
+	 */
+	private Actor getActorFromResultSet(ResultSet rs) throws SQLException {
+		long id = rs.getLong("ID");
+		String firstName = rs.getString("FirstName");
+		String lastName = rs.getString("LastName");
+		String gender = rs.getString("Gender");
+		String birthDate = rs.getString("BirthDate");
+
+		return new Actor(id, firstName, lastName, gender, LocalDate.parse(birthDate));
+	}
+
+	/**
+	 * Outputs all the actors from the database.
+	 * 
+	 * @return List<Actor>
+	 */
 	public List<Actor> getAll() {
 		List<Actor> actorList = new ArrayList<>();
 
@@ -31,14 +59,7 @@ public class ActorDb {
 				ResultSet actors = statement.executeQuery("SELECT * FROM Actor");) {
 
 			while (actors.next()) {
-				long id = actors.getLong("ID");
-				String firstName = actors.getString("FirstName");
-				String lastName = actors.getString("LastName");
-				String gender = actors.getString("Gender");
-				String birthDate = actors.getString("BirthDate");
-
-				Actor actor = new Actor(id, firstName, lastName, gender, LocalDate.parse(birthDate));
-
+				Actor actor = getActorFromResultSet(actors);
 				actorList.add(actor);
 			}
 		} catch (SQLException e) {
@@ -49,8 +70,13 @@ public class ActorDb {
 		return actorList;
 	}
 
+	/**
+	 * Returns an actor based on their last name.
+	 * 
+	 * @param lastName
+	 * @return Actor
+	 */
 	public Actor get(String lastName) {
-
 		String actorSelect = "SELECT * FROM Actor WHERE LastName ='" + lastName + "'";
 
 		try (Connection con = getConnection();
@@ -58,12 +84,8 @@ public class ActorDb {
 				ResultSet actors = statement.executeQuery(actorSelect);) {
 
 			if (actors.next()) {
-				long id = actors.getLong("ID");
-				String firstName = actors.getString("FirstName");
-				String lName = actors.getString("LastName");
-				String gender = actors.getString("Gender");
-				String birthDate = actors.getString("BirthDate");
-				return new Actor(id, firstName, lName, gender, LocalDate.parse(birthDate));
+				Actor actor = getActorFromResultSet(actors);
+				return actor;
 			} else {
 				return null;
 			}
@@ -72,7 +94,6 @@ public class ActorDb {
 			System.err.println("Caught exception. " + e);
 			return null;
 		}
-
 	}
 
 }
