@@ -1,6 +1,7 @@
 package bmdb.ui;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import bmdb.business.Actor;
@@ -31,6 +32,19 @@ public class BmdbApp {
 			case "lm":
 				displayMovies();
 				break;
+			case "aa":
+				addActor();
+				break;
+			case "da":
+				deleteActor();
+				break;
+			case "ua":
+				updateActor();
+				break;
+			case "gabi":
+				long id = Console.getInt("Actor's ID: ");
+				displayActorById(id);
+				break;
 			case "gabn":
 				String lastName = Console.getLine("Actor's last name: ");
 				displayActorByLastName(lastName);
@@ -56,6 +70,10 @@ public class BmdbApp {
 		System.out.println("COMMAND MENU");
 		System.out.println("la - List actors");
 		System.out.println("lm - List movies");
+		System.out.println("aa - Add actor");
+		System.out.println("da - Delete actor");
+		System.out.println("ua - Update actor");
+		System.out.println("gabi - Get actor by ID");
 		System.out.println("gabn - Get an actor by last name");
 		System.out.println("gmbt - Get a movie by title");
 		System.out.println("exit - Exit the application");
@@ -86,13 +104,77 @@ public class BmdbApp {
 	}
 
 	/**
+	 * Prompts the user for the actors fields and then attempts to create a new
+	 * actor and add to the database. An error message is output if it is not
+	 * successful.
+	 */
+	public static void addActor() {
+		String newFirstName = Console.getString("First Name: ");
+		String newLastName = Console.getString("Last name: ");
+		String newGender = Console.getString("Gender (m/f): ", "m", "f");
+		String newBirthDateStr = Console.getString("Birthdate (YYYY-MM-DD): ");
+		LocalDate newBirthDate = LocalDate.parse(newBirthDateStr);
+		Actor newActor = new Actor(0, newFirstName, newLastName, newGender, newBirthDate);
+		if (actorDb.add(newActor)) {
+			System.out.println("Actor added successfully");
+		} else {
+			System.out.println("Error adding actor");
+		}
+	}
+
+	/**
+	 * Prompts the user for the actor ID they want to delete. An error message is
+	 * output if it is not successful.
+	 */
+	public static void deleteActor() {
+		int idToDelete = Console.getInt("Actor ID: ");
+		if (actorDb.delete(idToDelete)) {
+			System.out.println("Actor deleted successfully");
+		} else {
+			System.out.println("Error deleting actor");
+		}
+	}
+
+	public static void updateActor() {
+		int updateId = Console.getInt("ID to update: ");
+		String newFirstName = Console.getString("First Name: ");
+		String newLastName = Console.getString("Last name: ");
+		String newGender = Console.getString("Gender (m/f): ", "m", "f");
+		String newBirthDateStr = Console.getString("Birthdate (YYYY-MM-DD): ");
+		LocalDate newBirthDate = LocalDate.parse(newBirthDateStr);
+		Actor newActor = new Actor(updateId, newFirstName, newLastName, newGender, newBirthDate);
+
+		if (actorDb.update(newActor)) {
+			System.out.println("Actor updated successfully");
+		} else {
+			System.out.println("Error updating actor");
+		}
+	}
+
+	/**
+	 * Searches for an actor based on their ID. Outputs the actor if found or an
+	 * error message.
+	 * 
+	 * @param id
+	 */
+	public static void displayActorById(long id) {
+		Actor actor = actorDb.get(id);
+		if (actor == null) {
+			System.out.println("Actor not found.");
+		} else {
+			System.out.println();
+			System.out.println(actor);
+		}
+	}
+
+	/**
 	 * Searches for an actor based on their last name. Outputs the actor if found or
 	 * an error message.
 	 * 
 	 * @param lastName
 	 */
 	public static void displayActorByLastName(String lastName) {
-		Actor actor = actorDb.get(lastName);
+		Actor actor = actorDb.getActorByLastName(lastName);
 		if (actor == null) {
 			System.out.println("Actor not found.");
 		} else {

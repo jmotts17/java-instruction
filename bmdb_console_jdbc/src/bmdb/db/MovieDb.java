@@ -2,6 +2,7 @@ package bmdb.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,16 +77,19 @@ public class MovieDb {
 	 * @return Movie
 	 */
 	public Movie get(String title) {
-		String movieSelect = "SELECT * FROM Movie WHERE Title ='" + title + "'";
+		String movieSelect = "SELECT * FROM Movie WHERE Title = ?";
 
-		try (Connection con = getConnection();
-				Statement statement = con.createStatement();
-				ResultSet movies = statement.executeQuery(movieSelect);) {
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieSelect);) {
+
+			ps.setString(1, title);
+			ResultSet movies = ps.executeQuery();
 
 			if (movies.next()) {
 				Movie movie = getMovieFromResultSet(movies);
+				movies.close();
 				return movie;
 			} else {
+				movies.close();
 				return null;
 			}
 
