@@ -44,6 +44,12 @@ public class BmdbApp {
 			case "am":
 				addMovie();
 				break;
+			case "dm":
+				deleteMovie();
+				break;
+			case "um":
+				updateMovie();
+				break;
 			case "gabi":
 				long actorId = Console.getInt("Actor's ID: ");
 				displayActorById(actorId);
@@ -80,6 +86,9 @@ public class BmdbApp {
 		System.out.println("aa - Add actor");
 		System.out.println("da - Delete actor");
 		System.out.println("ua - Update actor");
+		System.out.println("am - Add movie");
+		System.out.println("dm - Delete movie");
+		System.out.println("um - Update movie");
 		System.out.println("gabi - Get actor by ID");
 		System.out.println("gabn - Get actor by last name");
 		System.out.println("gmbi - Get movie by ID");
@@ -173,6 +182,30 @@ public class BmdbApp {
 			System.out.println("Movie added successfully");
 		} else {
 			System.out.println("Error adding Movie");
+		}
+	}
+
+	public static void deleteMovie() {
+		int idToDelete = Console.getInt("Movie ID: ");
+		if (movieDb.delete(idToDelete)) {
+			System.out.println("Movie deleted successfully");
+		} else {
+			System.out.println("Error deleting actor");
+		}
+	}
+
+	public static void updateMovie() {
+		int updateId = Console.getInt("ID to update: ");
+		String newTitle = Console.getString("Movie Title: ");
+		int newYear = Console.getInt("Year released: ");
+		String newRating = Console.getString("Rating: ");
+		String newDirector = Console.getString("Director: ");
+		Movie newMovie = new Movie(updateId, newTitle, newYear, newRating, newDirector);
+
+		if (movieDb.update(newMovie)) {
+			System.out.println("Movie updated successfully");
+		} else {
+			System.out.println("Error updating actor");
 		}
 	}
 

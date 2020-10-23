@@ -139,4 +139,36 @@ public class MovieDb {
 		}
 	}
 
+	public boolean delete(long id) {
+		String movieDelete = "DELETE FROM movie WHERE ID = ?";
+
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieDelete);) {
+			ps.setLong(1, id);
+			ps.executeUpdate();
+
+			return true;
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return false;
+		}
+	}
+
+	public boolean update(Movie movie) {
+		String movieUpdate = "UPDATE movie SET Title = ?, Year = ?, Rating = ?, Director = ? WHERE ID = ?";
+
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieUpdate);) {
+			ps.setString(1, movie.getTitle());
+			ps.setLong(2, movie.getYear());
+			ps.setString(3, movie.getRating());
+			ps.setString(4, movie.getDirector());
+			ps.setLong(5, movie.getId());
+			ps.executeUpdate();
+
+			return true;
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return false;
+		}
+	}
+
 }

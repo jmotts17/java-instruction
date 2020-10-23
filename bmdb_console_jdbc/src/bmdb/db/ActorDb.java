@@ -142,9 +142,9 @@ public class ActorDb {
 	}
 
 	public boolean delete(long id) {
-		String actorInsert = "DELETE FROM actor WHERE ID = ?";
+		String actorDelete = "DELETE FROM actor WHERE ID = ?";
 
-		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(actorInsert);) {
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(actorDelete);) {
 			ps.setLong(1, id);
 			ps.executeUpdate();
 
