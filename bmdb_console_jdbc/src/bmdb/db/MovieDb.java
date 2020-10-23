@@ -76,7 +76,7 @@ public class MovieDb {
 	 * @param title
 	 * @return Movie
 	 */
-	public Movie get(String title) {
+	public Movie getMovieByTitle(String title) {
 		String movieSelect = "SELECT * FROM Movie WHERE Title = ?";
 
 		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieSelect);) {
@@ -96,6 +96,46 @@ public class MovieDb {
 		} catch (SQLException e) {
 			System.err.println("Caught exception. " + e);
 			return null;
+		}
+	}
+
+	public Movie get(long id) {
+		String movieSelect = "SELECT * FROM Movie WHERE ID = ?";
+
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieSelect);) {
+
+			ps.setLong(1, id);
+			ResultSet movies = ps.executeQuery();
+
+			if (movies.next()) {
+				Movie movie = getMovieFromResultSet(movies);
+				movies.close();
+				return movie;
+			} else {
+				movies.close();
+				return null;
+			}
+
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return null;
+		}
+	}
+
+	public boolean add(Movie movie) {
+		String movieInsert = "INSERT INTO movie(Title, Year, Rating, Director) VALUES (?, ?, ?, ?)";
+
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(movieInsert);) {
+			ps.setString(1, movie.getTitle());
+			ps.setLong(2, movie.getYear());
+			ps.setString(3, movie.getRating());
+			ps.setString(4, movie.getDirector());
+			ps.executeUpdate();
+
+			return true;
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return false;
 		}
 	}
 

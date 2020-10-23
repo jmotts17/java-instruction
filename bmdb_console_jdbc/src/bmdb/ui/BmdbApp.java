@@ -41,16 +41,23 @@ public class BmdbApp {
 			case "ua":
 				updateActor();
 				break;
+			case "am":
+				addMovie();
+				break;
 			case "gabi":
-				long id = Console.getInt("Actor's ID: ");
-				displayActorById(id);
+				long actorId = Console.getInt("Actor's ID: ");
+				displayActorById(actorId);
 				break;
 			case "gabn":
 				String lastName = Console.getLine("Actor's last name: ");
 				displayActorByLastName(lastName);
 				break;
+			case "gmbi":
+				long movieId = Console.getInt("Movie's ID: ");
+				displayMovieById(movieId);
+				break;
 			case "gmbt":
-				String title = Console.getLine("Movie title: ");
+				String title = Console.getLine("Movie's ID: ");
 				displayMovieByTitle(title);
 				break;
 			}
@@ -74,8 +81,9 @@ public class BmdbApp {
 		System.out.println("da - Delete actor");
 		System.out.println("ua - Update actor");
 		System.out.println("gabi - Get actor by ID");
-		System.out.println("gabn - Get an actor by last name");
-		System.out.println("gmbt - Get a movie by title");
+		System.out.println("gabn - Get actor by last name");
+		System.out.println("gmbi - Get movie by ID");
+		System.out.println("gmbt - Get movie by title");
 		System.out.println("exit - Exit the application");
 	}
 
@@ -135,6 +143,10 @@ public class BmdbApp {
 		}
 	}
 
+	/**
+	 * Prompts the user for the actor information to update. Outputs a success/error
+	 * message once complete.
+	 */
 	public static void updateActor() {
 		int updateId = Console.getInt("ID to update: ");
 		String newFirstName = Console.getString("First Name: ");
@@ -148,6 +160,19 @@ public class BmdbApp {
 			System.out.println("Actor updated successfully");
 		} else {
 			System.out.println("Error updating actor");
+		}
+	}
+
+	public static void addMovie() {
+		String title = Console.getString("Movie title: ");
+		int year = Console.getInt("Year released: ");
+		String rating = Console.getString("Rating: ");
+		String director = Console.getString("Director: ");
+		Movie newMovie = new Movie(0, title, year, rating, director);
+		if (movieDb.add(newMovie)) {
+			System.out.println("Movie added successfully");
+		} else {
+			System.out.println("Error adding Movie");
 		}
 	}
 
@@ -183,6 +208,16 @@ public class BmdbApp {
 		}
 	}
 
+	public static void displayMovieById(long id) {
+		Movie movie = movieDb.get(id);
+		if (movie == null) {
+			System.out.println("Movie not found.");
+		} else {
+			System.out.println();
+			System.out.println(movie);
+		}
+	}
+
 	/**
 	 * Searches for a movie based on the title. Outputs the movie if found or an
 	 * error message.
@@ -190,7 +225,7 @@ public class BmdbApp {
 	 * @param title
 	 */
 	public static void displayMovieByTitle(String title) {
-		Movie movie = movieDb.get(title);
+		Movie movie = movieDb.getMovieByTitle(title);
 		if (movie == null) {
 			System.out.println("Movie not found.");
 		} else {
