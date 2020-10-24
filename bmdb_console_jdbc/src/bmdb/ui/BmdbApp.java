@@ -18,13 +18,13 @@ public class BmdbApp {
 	public static void main(String[] args) throws SQLException {
 		// Output welcome message and menu
 		System.out.println("Welcome to the Bootcamp Movie Database!\n");
-		displayMenu();
 
-		// Prompt user for a menu selection
-		String command = Console.getString("\nEnter command: ");
-		while (!command.equalsIgnoreCase("exit")) {
+		// Variable declaration
+		String command = "";
 
-			// Calls method based on menu selection
+		do {
+			command = displayMenu();
+
 			switch (command) {
 			case "la":
 				displayActors();
@@ -68,32 +68,47 @@ public class BmdbApp {
 				break;
 			}
 
-			// Prompt user for a menu selection
-			command = Console.getString("\nEnter command: ");
-		}
+		} while (!command.equalsIgnoreCase("exit"));
 
 		// Output end message
 		System.out.println("\nBye!");
 	}
 
 	/**
-	 * Outputs the menu options.
+	 * Outputs all the users options. Returns the users selection to the main
+	 * method.
 	 */
-	public static void displayMenu() {
-		System.out.println("COMMAND MENU");
-		System.out.println("la - List actors");
-		System.out.println("lm - List movies");
-		System.out.println("aa - Add actor");
-		System.out.println("da - Delete actor");
-		System.out.println("ua - Update actor");
-		System.out.println("am - Add movie");
-		System.out.println("dm - Delete movie");
-		System.out.println("um - Update movie");
-		System.out.println("gabi - Get actor by ID");
-		System.out.println("gabn - Get actor by last name");
-		System.out.println("gmbi - Get movie by ID");
-		System.out.println("gmbt - Get movie by title");
+	public static String displayMenu() {
+		System.out.println("\nCOMMAND MENU");
+		System.out.println("ao - Actor options");
+		System.out.println("mo - Movie options");
 		System.out.println("exit - Exit the application");
+
+		String select = Console.getString("\nEnter command: ");
+
+		if (select.equals("ao")) {
+			System.out.println("\nACTOR MENU");
+			System.out.println("la - List actors");
+			System.out.println("aa - Add actor");
+			System.out.println("da - Delete actor");
+			System.out.println("ua - Update actor");
+			System.out.println("gabi - Get actor by ID");
+			System.out.println("gabn - Get actor by last name");
+			select = Console.getString("Enter Actor option: ");
+			return select;
+		} else if (select.equals("mo")) {
+			System.out.println("\nMOVIE MENU");
+			System.out.println("lm - List movies");
+			System.out.println("am - Add movie");
+			System.out.println("dm - Delete movie");
+			System.out.println("um - Update movie");
+			System.out.println("gmbi - Get movie by ID");
+			System.out.println("gmbt - Get movie by title");
+			select = Console.getString("\nEnter Movie option: ");
+			return select;
+		} else {
+			return select;
+		}
 	}
 
 	/**
