@@ -136,31 +136,6 @@ public class PrsApp {
 	}
 
 	/**
-	 * Authenticates a User
-	 *
-	 * @param userName The user's userName
-	 * @param password The user's password
-	 * @returns The matching User or null if no matching User found
-	 */
-	public static User authenticateUser(String userName, String password) {
-		List<User> userList = userDb.getAll();
-
-		for (User user : userList) {
-			if (user.getUserName().equals(userName)) {
-				if (user.getPassword().equals(password)) {
-					System.out.println("Success");
-					return user;
-				} else {
-					System.out.println("Wrong password.");
-					return null;
-				}
-			}
-		}
-		System.out.println("User not found");
-		return null;
-	}
-
-	/**
 	 * Outputs the command menu and each subsequent menu.
 	 * 
 	 * @return command
@@ -172,8 +147,8 @@ public class PrsApp {
 		System.out.println("request - request command list");
 		System.out.println("product - product command list");
 		System.out.println("lineitem - line item command list");
-		System.out.println("Login");
-		System.out.println("Logout");
+		System.out.println("login");
+		System.out.println("logout");
 		System.out.println("exit - exit the application");
 		String command = Console.getString("Enter command: ");
 
@@ -223,6 +198,8 @@ public class PrsApp {
 			System.out.println("li_ul - Update line item");
 			command = Console.getString("Enter command: ");
 			break;
+		case "login":
+			break;
 		case "exit":
 			// Nothing to do
 			break;
@@ -232,6 +209,34 @@ public class PrsApp {
 		}
 
 		return command;
+	}
+
+	// ************************************************
+	// *************** LOGIN METHODS ******************
+	// ************************************************
+	/**
+	 * Authenticates a User
+	 *
+	 * @param userName The user's userName
+	 * @param password The user's password
+	 * @returns The matching User or null if no matching User found
+	 */
+	public static User authenticateUser(String userName, String password) {
+		List<User> userList = userDb.getAll();
+
+		for (User user : userList) {
+			if (user.getUserName().equals(userName)) {
+				if (user.getPassword().equals(password)) {
+					System.out.println("Success");
+					return user;
+				} else {
+					System.out.println("Wrong password.");
+					return null;
+				}
+			}
+		}
+		System.out.println("User not found");
+		return null;
 	}
 
 	// ***********************************************
