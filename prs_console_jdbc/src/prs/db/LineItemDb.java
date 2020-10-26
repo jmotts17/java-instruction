@@ -51,7 +51,7 @@ public class LineItemDb {
 	}
 
 	/**
-	 * Returns a list of line item objects that stores all the line item from the
+	 * Returns a list of line item objects that stores all the line items from the
 	 * database.
 	 * 
 	 * @return List of Line Items from Database

@@ -1,13 +1,17 @@
 package prs.ui;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import prs.business.LineItem;
 import prs.business.Product;
+import prs.business.Request;
 import prs.business.User;
 import prs.business.Vendor;
 import prs.db.LineItemDb;
 import prs.db.ProductDb;
+import prs.db.RequestDb;
 import prs.db.UserDb;
 import prs.db.VendorDb;
 import prs.exception.PrsDataException;
@@ -16,6 +20,7 @@ public class PrsApp {
 
 	private static UserDb userDb = new UserDb();
 	private static VendorDb vendorDb = new VendorDb();
+	private static RequestDb requestDb = new RequestDb();
 	private static ProductDb productDb = new ProductDb();
 	private static LineItemDb lineItemDb = new LineItemDb();
 
@@ -25,6 +30,13 @@ public class PrsApp {
 
 		// Variable declaration
 		String command = "";
+		User authenticatedUser = null;
+
+		while (authenticatedUser == null) {
+			String user = Console.getString("Username: ");
+			String password = Console.getString("Password: ");
+			authenticatedUser = authenticateUser(user, password);
+		}
 
 		do {
 			command = displayMenu();
@@ -62,6 +74,22 @@ public class PrsApp {
 			case "vend_uv":
 				updateVendor();
 				break;
+			// REQUEST CASES *****************
+			case "req_la":
+				listRequests();
+				break;
+			case "req_id":
+				getRequestById();
+				break;
+			case "req_ar":
+				addRequest();
+				break;
+			case "req_dr":
+				deleteRequest();
+				break;
+			case "req_ur":
+				updateRequest();
+				break;
 			// PRODUCT CASES *****************
 			case "prod_la":
 				listProducts();
@@ -97,6 +125,9 @@ public class PrsApp {
 			case "exit":
 				// Nothing to do
 				break;
+			default:
+				System.out.println("Invalid command");
+				break;
 			}
 
 		} while (!command.equalsIgnoreCase("exit"));
@@ -104,6 +135,36 @@ public class PrsApp {
 		System.out.println("\nBye");
 	}
 
+	/**
+	 * Authenticates a User
+	 *
+	 * @param userName The user's userName
+	 * @param password The user's password
+	 * @returns The matching User or null if no matching User found
+	 */
+	public static User authenticateUser(String userName, String password) {
+		List<User> userList = userDb.getAll();
+
+		for (User user : userList) {
+			if (user.getUserName().equals(userName)) {
+				if (user.getPassword().equals(password)) {
+					System.out.println("Success");
+					return user;
+				} else {
+					System.out.println("Wrong password.");
+					return null;
+				}
+			}
+		}
+		System.out.println("User not found");
+		return null;
+	}
+
+	/**
+	 * Outputs the command menu and each subsequent menu.
+	 * 
+	 * @return command
+	 */
 	private static String displayMenu() {
 		System.out.println("\nCOMMAND MENU");
 		System.out.println("user - User command list");
@@ -111,6 +172,8 @@ public class PrsApp {
 		System.out.println("request - request command list");
 		System.out.println("product - product command list");
 		System.out.println("lineitem - line item command list");
+		System.out.println("Login");
+		System.out.println("Logout");
 		System.out.println("exit - exit the application");
 		String command = Console.getString("Enter command: ");
 
@@ -137,9 +200,9 @@ public class PrsApp {
 			System.out.println("\nREQUEST COMMAND MENU");
 			System.out.println("req_la - List all requests");
 			System.out.println("req_id - List request by ID");
-			System.out.println("req_av - Add request");
-			System.out.println("req_dv - Delete request");
-			System.out.println("req_uv - Update request");
+			System.out.println("req_ar - Add request");
+			System.out.println("req_dr - Delete request");
+			System.out.println("req_ur - Update request");
 			command = Console.getString("Enter command: ");
 			break;
 		case "product":
@@ -164,7 +227,6 @@ public class PrsApp {
 			// Nothing to do
 			break;
 		default:
-			System.out.println("Invalid command");
 			command = "";
 			break;
 		}
@@ -228,9 +290,9 @@ public class PrsApp {
 	private static void deleteUser() {
 		int id = Console.getInt("User ID: ");
 		if (userDb.delete(id)) {
-			System.out.println("User deleted successfully");
+			System.out.println("User deleted successfully.");
 		} else {
-			System.out.println("Error deleting user");
+			System.out.println("Error deleting user.");
 		}
 	}
 
@@ -250,9 +312,9 @@ public class PrsApp {
 				false, false);
 
 		if (userDb.update(newUser)) {
-			System.out.println("User updated successfully");
+			System.out.println("User updated successfully.");
 		} else {
-			System.out.println("Error updating user");
+			System.out.println("Error updating user.");
 		}
 	}
 
@@ -279,7 +341,7 @@ public class PrsApp {
 		Vendor vendor = vendorDb.get(id);
 
 		if (vendor == null) {
-			System.out.println("Vendor not found");
+			System.out.println("Vendor not found.");
 		} else {
 			System.out.println("\n" + vendor);
 		}
@@ -314,9 +376,9 @@ public class PrsApp {
 	private static void deleteVendor() {
 		int id = Console.getInt("Vendor ID: ");
 		if (vendorDb.delete(id)) {
-			System.out.println("Vendor deleted successfully");
+			System.out.println("Vendor deleted successfully.");
 		} else {
-			System.out.println("Error deleting vendor");
+			System.out.println("Error deleting vendor.");
 		}
 	}
 
@@ -338,15 +400,106 @@ public class PrsApp {
 				newEmail);
 
 		if (vendorDb.update(newVendor)) {
-			System.out.println("Vendor updated successfully");
+			System.out.println("Vendor updated successfully.");
 		} else {
-			System.out.println("Error updating vendor");
+			System.out.println("Error updating vendor.");
 		}
 	}
 
-	// ***********************************************
-	// *************** VENDOR METHODS ****************
-	// ***********************************************
+	// ************************************************
+	// *************** REQUEST METHODS ****************
+	// ************************************************
+	/**
+	 * Outputs all of the requests from the database.
+	 */
+	private static void listRequests() {
+		List<Request> requests = requestDb.getAll();
+
+		System.out.println("\nRequests: ");
+		for (Request request : requests) {
+			System.out.println(request);
+		}
+	}
+
+	/**
+	 * Outputs a request based on the request ID.
+	 */
+	private static void getRequestById() {
+		int id = Console.getInt("Request ID: ");
+		Request request = requestDb.get(id);
+
+		if (request == null) {
+			System.out.println("Request not found.");
+		} else {
+			System.out.println("\n" + request);
+		}
+	}
+
+	/**
+	 * Prompts the user for the values of a request, creates a new request and adds
+	 * it to the database.
+	 */
+	private static void addRequest() {
+		int userId = Console.getInt("User ID: ");
+		String description = Console.getString("Description: ");
+		String justification = Console.getString("Justification: ");
+		String date = Console.getString("Date Needed (YYYY-MM-DD): ");
+		LocalDate dateNeeded = LocalDate.parse(date);
+		String deliveryMode = Console.getString("Delivery Mode: ");
+		String status = Console.getString("Status: ");
+		Double total = Console.getDouble("Total: ");
+		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
+		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+		String rejectionReason = Console.getString("Rejection reason: ");
+		Request newRequest = new Request(0, userId, description, justification, dateNeeded, deliveryMode, status, total,
+				submittedDate, rejectionReason);
+
+		if (requestDb.add(newRequest)) {
+			System.out.println("Request added successfully.");
+		} else {
+			System.out.println("Error adding request.");
+		}
+	}
+
+	/**
+	 * Prompts the user for a request ID to delete and deletes the request from the
+	 * database.
+	 */
+	private static void deleteRequest() {
+		int id = Console.getInt("Request ID: ");
+		if (requestDb.delete(id)) {
+			System.out.println("Request deleted successfully.");
+		} else {
+			System.out.println("Error deleting request.");
+		}
+	}
+
+	/**
+	 * Prompts the user for the values of a product and updates the product at the
+	 * user entered ID with the new product values.
+	 */
+	private static void updateRequest() {
+		int updateId = Console.getInt("ID to update: ");
+		int userId = Console.getInt("User ID: ");
+		String description = Console.getString("Description: ");
+		String justification = Console.getString("Justification: ");
+		String date = Console.getString("Date Needed (YYYY-MM-DD): ");
+		LocalDate dateNeeded = LocalDate.parse(date);
+		String deliveryMode = Console.getString("Delivery Mode: ");
+		String status = Console.getString("Status: ");
+		Double total = Console.getDouble("Total: ");
+		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
+		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+		String rejectionReason = Console.getString("Rejection reason: ");
+		Request newRequest = new Request(updateId, userId, description, justification, dateNeeded, deliveryMode, status,
+				total, submittedDate, rejectionReason);
+
+		if (requestDb.update(newRequest)) {
+			System.out.println("Request updated successfully.");
+		} else {
+			System.out.println("Error updating request.");
+		}
+	}
 
 	// ***********************************************
 	// *************** PRODUCT METHODS ***************
@@ -375,7 +528,7 @@ public class PrsApp {
 		Product product = productDb.get(id);
 
 		if (product == null) {
-			System.out.println("Product not found");
+			System.out.println("Product not found.");
 		} else {
 			System.out.println("\n" + product);
 		}
@@ -408,9 +561,9 @@ public class PrsApp {
 	private static void deleteProduct() {
 		int id = Console.getInt("Product ID: ");
 		if (productDb.delete(id)) {
-			System.out.println("Product deleted successfully");
+			System.out.println("Product deleted successfully.");
 		} else {
-			System.out.println("Error deleting product");
+			System.out.println("Error deleting product.");
 		}
 	}
 
@@ -430,9 +583,9 @@ public class PrsApp {
 				newPhotoPath);
 
 		if (productDb.update(newProduct)) {
-			System.out.println("Product updated successfully");
+			System.out.println("Product updated successfully.");
 		} else {
-			System.out.println("Error updating product");
+			System.out.println("Error updating product.");
 		}
 	}
 
@@ -459,7 +612,7 @@ public class PrsApp {
 		LineItem lineItem = lineItemDb.get(id);
 
 		if (lineItem == null) {
-			System.out.println("Line Item not found");
+			System.out.println("Line Item not found.");
 		} else {
 			System.out.println("\n" + lineItem);
 		}
