@@ -32,14 +32,8 @@ public class PrsApp {
 		String command = "";
 		User authenticatedUser = null;
 
-		while (authenticatedUser == null) {
-			String user = Console.getString("Username: ");
-			String password = Console.getString("Password: ");
-			authenticatedUser = authenticateUser(user, password);
-		}
-
 		do {
-			command = displayMenu();
+			command = displayMenu(authenticatedUser);
 
 			switch (command.toLowerCase()) {
 			// USER CASES *****************
@@ -122,7 +116,21 @@ public class PrsApp {
 			case "li_ul":
 				updateLineItem();
 				break;
+			case "login":
+				if (authenticatedUser == null) {
+					authenticatedUser = userLogin();
+				} else {
+					System.out.println("Already logged in.");
+				}
+				break;
+			case "logout":
+				authenticatedUser = null;
+				System.out.println("Logout successful.");
+				break;
 			case "exit":
+				// Nothing to do
+				break;
+			case "escape":
 				// Nothing to do
 				break;
 			default:
@@ -140,7 +148,7 @@ public class PrsApp {
 	 * 
 	 * @return command
 	 */
-	private static String displayMenu() {
+	private static String displayMenu(User authenticatedUser) {
 		System.out.println("\nCOMMAND MENU");
 		System.out.println("user - User command list");
 		System.out.println("vendor - vendor command list");
@@ -152,63 +160,73 @@ public class PrsApp {
 		System.out.println("exit - exit the application");
 		String command = Console.getString("Enter command: ");
 
-		switch (command.toLowerCase()) {
-		case "user":
-			System.out.println("\nUSER COMMAND MENU");
-			System.out.println("user_la - List all users");
-			System.out.println("user_id - List user by ID");
-			System.out.println("user_au - Add user");
-			System.out.println("user_du - Delete user");
-			System.out.println("user_uu - Update user");
-			command = Console.getString("Enter command: ");
-			break;
-		case "vendor":
-			System.out.println("\nVENDOR COMMAND MENU");
-			System.out.println("vend_la - List all vendors");
-			System.out.println("vend_id - List vendor by ID");
-			System.out.println("vend_av - Add vendor");
-			System.out.println("vend_dv - Delete vendor");
-			System.out.println("vend_uv - Update vendor");
-			command = Console.getString("Enter command: ");
-			break;
-		case "request":
-			System.out.println("\nREQUEST COMMAND MENU");
-			System.out.println("req_la - List all requests");
-			System.out.println("req_id - List request by ID");
-			System.out.println("req_ar - Add request");
-			System.out.println("req_dr - Delete request");
-			System.out.println("req_ur - Update request");
-			command = Console.getString("Enter command: ");
-			break;
-		case "product":
-			System.out.println("\nPRODUCT COMMAND MENU");
-			System.out.println("prod_la - List all products");
-			System.out.println("prod_id - List product by ID");
-			System.out.println("prod_ap - Add product");
-			System.out.println("prod_dp - Delete product");
-			System.out.println("prod_up - Update product");
-			command = Console.getString("Enter command: ");
-			break;
-		case "lineitem":
-			System.out.println("\nLINE ITEM COMMAND MENU");
-			System.out.println("li_la - List all line items");
-			System.out.println("li_id - List line item by ID");
-			System.out.println("li_al - Add line item");
-			System.out.println("li_dl - Delete line item");
-			System.out.println("li_ul - Update line item");
-			command = Console.getString("Enter command: ");
-			break;
-		case "login":
-			break;
-		case "exit":
-			// Nothing to do
-			break;
-		default:
-			command = "";
-			break;
-		}
+		if (command.equalsIgnoreCase("login") && authenticatedUser == null) {
+			return command;
+		} else if (authenticatedUser != null) {
+			switch (command.toLowerCase()) {
+			case "user":
+				System.out.println("\nUSER COMMAND MENU");
+				System.out.println("user_la - List all users");
+				System.out.println("user_id - List user by ID");
+				System.out.println("user_au - Add user");
+				System.out.println("user_du - Delete user");
+				System.out.println("user_uu - Update user");
+				command = Console.getString("Enter command: ");
+				break;
+			case "vendor":
+				System.out.println("\nVENDOR COMMAND MENU");
+				System.out.println("vend_la - List all vendors");
+				System.out.println("vend_id - List vendor by ID");
+				System.out.println("vend_av - Add vendor");
+				System.out.println("vend_dv - Delete vendor");
+				System.out.println("vend_uv - Update vendor");
+				command = Console.getString("Enter command: ");
+				break;
+			case "request":
+				System.out.println("\nREQUEST COMMAND MENU");
+				System.out.println("req_la - List all requests");
+				System.out.println("req_id - List request by ID");
+				System.out.println("req_ar - Add request");
+				System.out.println("req_dr - Delete request");
+				System.out.println("req_ur - Update request");
+				command = Console.getString("Enter command: ");
+				break;
+			case "product":
+				System.out.println("\nPRODUCT COMMAND MENU");
+				System.out.println("prod_la - List all products");
+				System.out.println("prod_id - List product by ID");
+				System.out.println("prod_ap - Add product");
+				System.out.println("prod_dp - Delete product");
+				System.out.println("prod_up - Update product");
+				command = Console.getString("Enter command: ");
+				break;
+			case "lineitem":
+				System.out.println("\nLINE ITEM COMMAND MENU");
+				System.out.println("li_la - List all line items");
+				System.out.println("li_id - List line item by ID");
+				System.out.println("li_al - Add line item");
+				System.out.println("li_dl - Delete line item");
+				System.out.println("li_ul - Update line item");
+				command = Console.getString("Enter command: ");
+				break;
+			case "login":
+			case "logout":
+			case "exit":
+				// Nothing to do
+				break;
+			default:
+				command = "";
+				break;
+			}
 
-		return command;
+			return command;
+		} else {
+			if (command.equals("exit")) {
+				return command;
+			}
+			System.out.println("Please login.");
+			return "escape";
+		}
 	}
 
 	// ************************************************
@@ -227,7 +245,7 @@ public class PrsApp {
 		for (User user : userList) {
 			if (user.getUserName().equals(userName)) {
 				if (user.getPassword().equals(password)) {
-					System.out.println("Success");
+					System.out.println("Login successful.");
 					return user;
 				} else {
 					System.out.println("Wrong password.");
@@ -237,6 +255,18 @@ public class PrsApp {
 		}
 		System.out.println("User not found");
 		return null;
+	}
+
+	/**
+	 * Prompts the user for a user name and password and passes the data to the
+	 * authenticateUser method.
+	 * 
+	 * @return user
+	 */
+	public static User userLogin() {
+		String userName = Console.getString("Username: ");
+		String password = Console.getString("Password: ");
+		return authenticateUser(userName, password);
 	}
 
 	// ***********************************************
@@ -453,8 +483,9 @@ public class PrsApp {
 		String deliveryMode = Console.getString("Delivery Mode: ");
 		String status = Console.getString("Status: ");
 		Double total = Console.getDouble("Total: ");
-		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
-		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+//		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
+//		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+		LocalDateTime submittedDate = LocalDateTime.now();
 		String rejectionReason = Console.getString("Rejection reason: ");
 		Request newRequest = new Request(0, userId, description, justification, dateNeeded, deliveryMode, status, total,
 				submittedDate, rejectionReason);
@@ -493,8 +524,9 @@ public class PrsApp {
 		String deliveryMode = Console.getString("Delivery Mode: ");
 		String status = Console.getString("Status: ");
 		Double total = Console.getDouble("Total: ");
-		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
-		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+//		String dateTime = Console.getString("Submitted Date (YYYY-MM-DDTHH:MM): ");
+//		LocalDateTime submittedDate = LocalDateTime.parse(dateTime);
+		LocalDateTime submittedDate = LocalDateTime.now();
 		String rejectionReason = Console.getString("Rejection reason: ");
 		Request newRequest = new Request(updateId, userId, description, justification, dateNeeded, deliveryMode, status,
 				total, submittedDate, rejectionReason);

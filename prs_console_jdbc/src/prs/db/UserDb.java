@@ -125,8 +125,8 @@ public class UserDb {
 			ps.setString(4, user.getLastName());
 			ps.setString(5, user.getPhoneNumber());
 			ps.setString(6, user.getEmail());
-			ps.setBoolean(7, user.isReviewer() ? true : false);
-			ps.setBoolean(8, user.isAdmin() ? true : false);
+			ps.setBoolean(7, user.isReviewer());
+			ps.setBoolean(8, user.isAdmin());
 			ps.executeUpdate();
 
 			return true;
