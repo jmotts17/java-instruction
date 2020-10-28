@@ -1,7 +1,6 @@
 package prs.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,28 +10,28 @@ import java.util.List;
 
 import prs.business.Vendor;
 
-public class VendorDb {
+public class VendorDb extends DbAbstract implements DbInterface<Vendor> {
 
 	// Constructor
 	public VendorDb() {
 
 	}
 
-	/**
-	 * Creates a connection with the database.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 */
-	private Connection getConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
-		String username = "prs_user";
-		String password = "sesame";
-
-		Connection connection = DriverManager.getConnection(dbURL, username, password);
-
-		return connection;
-	}
+//	/**
+//	 * Creates a connection with the database.
+//	 * 
+//	 * @return Connection
+//	 * @throws SQLException
+//	 */
+//	private Connection getConnection() throws SQLException {
+//		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
+//		String username = "prs_user";
+//		String password = "sesame";
+//
+//		Connection connection = DriverManager.getConnection(dbURL, username, password);
+//
+//		return connection;
+//	}
 
 	/**
 	 * Creates and returns a vendor based on the ResultSet.
@@ -60,6 +59,7 @@ public class VendorDb {
 	 * 
 	 * @return List of Vendors from Database
 	 */
+	@Override
 	public List<Vendor> getAll() {
 		String selectAll = "SELECT * FROM Vendor";
 
@@ -87,6 +87,7 @@ public class VendorDb {
 	 * @param id
 	 * @return Vendor based on ID
 	 */
+	@Override
 	public Vendor get(int id) {
 		String vendorSelect = "SELECT * FROM Vendor WHERE ID = ?";
 
@@ -115,6 +116,7 @@ public class VendorDb {
 	 * @param vendor
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean add(Vendor vendor) {
 		String vendorInsert = "INSERT INTO Vendor(Code, Name, Address, City, State, Zip, PhoneNumber, Email)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -145,6 +147,7 @@ public class VendorDb {
 	 * @param id
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean delete(int id) {
 		String vendorDelete = "DELETE FROM Vendor WHERE ID = ?";
 
@@ -165,6 +168,7 @@ public class VendorDb {
 	 * @param vendor
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean update(Vendor vendor) {
 		String vendorUpdate = "UPDATE Vendor SET Code = ?, Name = ?, Address = ?, City = ?, State = ?,"
 				+ " Zip = ?, PhoneNumber = ?, Email = ? WHERE ID = ?";

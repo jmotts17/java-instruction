@@ -343,8 +343,12 @@ public class PrsApp {
 		String newLastName = Console.getString("Last Name: ");
 		String newPhoneNumber = Console.getString("Phone Number: ");
 		String newEmail = Console.getString("Email: ");
+		String reviewer = Console.getString("Reviewer (true/false): ", "true", "false");
+		Boolean isReviewer = Boolean.parseBoolean(reviewer);
+		String admin = Console.getString("Admin (true/false): ", "true", "false");
+		Boolean isAdmin = Boolean.parseBoolean(admin);
 		User newUser = new User(updateId, newUserName, newPassword, newFirstName, newLastName, newPhoneNumber, newEmail,
-				false, false);
+				isReviewer, isAdmin);
 
 		if (userDb.update(newUser)) {
 			System.out.println("User updated successfully.");

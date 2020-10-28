@@ -1,7 +1,6 @@
 package prs.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,28 +12,28 @@ import java.util.List;
 
 import prs.business.Request;
 
-public class RequestDb {
+public class RequestDb extends DbAbstract implements DbInterface<Request> {
 
 	// Constructor
 	public RequestDb() {
 
 	}
 
-	/**
-	 * Creates a connection with the database.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 */
-	private Connection getConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
-		String username = "prs_user";
-		String password = "sesame";
-
-		Connection connection = DriverManager.getConnection(dbURL, username, password);
-
-		return connection;
-	}
+//	/**
+//	 * Creates a connection with the database.
+//	 * 
+//	 * @return Connection
+//	 * @throws SQLException
+//	 */
+//	private Connection getConnection() throws SQLException {
+//		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
+//		String username = "prs_user";
+//		String password = "sesame";
+//
+//		Connection connection = DriverManager.getConnection(dbURL, username, password);
+//
+//		return connection;
+//	}
 
 	/**
 	 * Creates and returns a request based on the ResultSet.
@@ -66,6 +65,7 @@ public class RequestDb {
 	 * 
 	 * @return List of Requests from Database
 	 */
+	@Override
 	public List<Request> getAll() {
 		String selectAll = "SELECT * FROM Request";
 
@@ -93,6 +93,7 @@ public class RequestDb {
 	 * @param id
 	 * @return Request based on ID
 	 */
+	@Override
 	public Request get(int id) {
 		String requestSelect = "SELECT * FROM Request WHERE ID = ?";
 
@@ -121,6 +122,7 @@ public class RequestDb {
 	 * @param request
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean add(Request request) {
 		String requestInsert = "INSERT INTO Request(UserId, Description, Justification, DateNeeded, DeliveryMode, Status, Total,"
 				+ " SubmittedDate, ReasonForRejection)" + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -152,6 +154,7 @@ public class RequestDb {
 	 * @param id
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean delete(int id) {
 		String requestDelete = "DELETE FROM Request WHERE ID = ?";
 
@@ -172,6 +175,7 @@ public class RequestDb {
 	 * @param request
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean update(Request request) {
 		String requestUpdate = "UPDATE Request SET UserId = ?, Description = ?, Justification = ?, DateNeeded = ?, DeliveryMode = ?,"
 				+ "Status = ?, Total = ?, SubmittedDate = ?, ReasonForRejection = ? WHERE ID = ?";

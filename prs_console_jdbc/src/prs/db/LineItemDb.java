@@ -1,7 +1,6 @@
 package prs.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,28 +10,28 @@ import java.util.List;
 
 import prs.business.LineItem;
 
-public class LineItemDb {
+public class LineItemDb extends DbAbstract implements DbInterface<LineItem> {
 
 	// Constructor
 	public LineItemDb() {
 
 	}
 
-	/**
-	 * Creates a connection with the database.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 */
-	private Connection getConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
-		String username = "prs_user";
-		String password = "sesame";
-
-		Connection connection = DriverManager.getConnection(dbURL, username, password);
-
-		return connection;
-	}
+//	/**
+//	 * Creates a connection with the database.
+//	 * 
+//	 * @return Connection
+//	 * @throws SQLException
+//	 */
+//	private Connection getConnection() throws SQLException {
+//		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
+//		String username = "prs_user";
+//		String password = "sesame";
+//
+//		Connection connection = DriverManager.getConnection(dbURL, username, password);
+//
+//		return connection;
+//	}
 
 	/**
 	 * Creates and returns a line item based on the ResultSet.
@@ -56,6 +55,7 @@ public class LineItemDb {
 	 * 
 	 * @return List of Line Items from Database
 	 */
+	@Override
 	public List<LineItem> getAll() {
 		String selectAll = "SELECT * FROM LineItem";
 
@@ -83,6 +83,7 @@ public class LineItemDb {
 	 * @param id
 	 * @return LineItem based on ID
 	 */
+	@Override
 	public LineItem get(int id) {
 		String lineItemSelect = "SELECT * FROM LineItem WHERE ID = ?";
 
@@ -111,6 +112,7 @@ public class LineItemDb {
 	 * @param lineItem
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean add(LineItem lineItem) {
 		String lineItemInsert = "INSERT INTO LineItem(RequestID, ProductID, Quantity)" + " VALUES (?, ?, ?)";
 
@@ -135,6 +137,7 @@ public class LineItemDb {
 	 * @param id
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean delete(int id) {
 		String lineItemDelete = "DELETE FROM LineItem WHERE ID = ?";
 
@@ -156,6 +159,7 @@ public class LineItemDb {
 	 * @param lineItem
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean update(LineItem lineItem) {
 		String lineItemUpdate = "UPDATE LineItem SET RequestID = ?, ProductID = ?, Quantity = ? WHERE ID = ?";
 

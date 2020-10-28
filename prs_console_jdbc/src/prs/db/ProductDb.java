@@ -1,7 +1,6 @@
 package prs.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,28 +11,28 @@ import java.util.List;
 import prs.business.Product;
 import prs.exception.PrsDataException;
 
-public class ProductDb {
+public class ProductDb extends DbAbstract implements DbInterface<Product> {
 
 	// Constructor
 	public ProductDb() {
 
 	}
 
-	/**
-	 * Creates a connection with the database.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 */
-	private Connection getConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
-		String username = "prs_user";
-		String password = "sesame";
-
-		Connection connection = DriverManager.getConnection(dbURL, username, password);
-
-		return connection;
-	}
+//	/**
+//	 * Creates a connection with the database.
+//	 * 
+//	 * @return Connection
+//	 * @throws SQLException
+//	 */
+//	private Connection getConnection() throws SQLException {
+//		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
+//		String username = "prs_user";
+//		String password = "sesame";
+//
+//		Connection connection = DriverManager.getConnection(dbURL, username, password);
+//
+//		return connection;
+//	}
 
 	/**
 	 * Creates and returns a product object based on the ResultSet.
@@ -59,6 +58,7 @@ public class ProductDb {
 	 * 
 	 * @return List of Products from Database
 	 */
+	@Override
 	public List<Product> getAll() {
 		String selectAll = "SELECT * FROM Product";
 
@@ -85,6 +85,7 @@ public class ProductDb {
 	 * @param id
 	 * @return Product based on ID
 	 */
+	@Override
 	public Product get(int id) {
 		String productSelect = "SELECT * FROM Product WHERE ID = ?";
 
@@ -114,6 +115,7 @@ public class ProductDb {
 	 * @param product
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean add(Product product) {
 		String productInsert = "INSERT INTO Product(VendorID, PartNumber, Name, Price, Unit, PhotoPath)"
 				+ " VALUES (?, ?, ?, ?, ?, ?)";
@@ -141,6 +143,7 @@ public class ProductDb {
 	 * @param id
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean delete(int id) {
 		String productDelete = "DELETE FROM Product WHERE ID = ?";
 
@@ -161,6 +164,7 @@ public class ProductDb {
 	 * @param product
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean update(Product product) {
 		String productUpdate = "UPDATE product SET VendorId = ?, PartNumber = ?, Name = ?, Price = ?, Unit = ?, PhotoPath = ? WHERE ID = ?";
 

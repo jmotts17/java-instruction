@@ -1,7 +1,6 @@
 package prs.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,28 +10,28 @@ import java.util.List;
 
 import prs.business.User;
 
-public class UserDb {
+public class UserDb extends DbAbstract implements DbInterface<User> {
 
 	// Constructor
 	public UserDb() {
 
 	}
 
-	/**
-	 * Creates a connection with the database.
-	 * 
-	 * @return Connection
-	 * @throws SQLException
-	 */
-	private Connection getConnection() throws SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
-		String username = "prs_user";
-		String password = "sesame";
-
-		Connection connection = DriverManager.getConnection(dbURL, username, password);
-
-		return connection;
-	}
+//	/**
+//	 * Creates a connection with the database.
+//	 * 
+//	 * @return Connection
+//	 * @throws SQLException
+//	 */
+//	private Connection getConnection() throws SQLException {
+//		String dbURL = "jdbc:mysql://localhost:3306/prs?useSSL=false&allowPublicKeyRetrieval=true";
+//		String username = "prs_user";
+//		String password = "sesame";
+//
+//		Connection connection = DriverManager.getConnection(dbURL, username, password);
+//
+//		return connection;
+//	}
 
 	/**
 	 * Creates and returns a user object based on the ResultSet.
@@ -59,6 +58,7 @@ public class UserDb {
 	 * 
 	 * @return List of Users from Database
 	 */
+	@Override
 	public List<User> getAll() {
 		String selectAll = "SELECT * FROM User";
 
@@ -86,6 +86,7 @@ public class UserDb {
 	 * @param id
 	 * @return User based on ID
 	 */
+	@Override
 	public User get(int id) {
 		String userSelect = "SELECT * FROM User WHERE ID = ?";
 
@@ -114,6 +115,7 @@ public class UserDb {
 	 * @param user
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean add(User user) {
 		String userInsert = "INSERT INTO User(UserName, Password, FirstName, LastName, PhoneNumber, Email, IsReviewer, IsAdmin)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -143,6 +145,7 @@ public class UserDb {
 	 * @param id
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean delete(int id) {
 		String userDelete = "DELETE FROM User WHERE ID = ?";
 
@@ -163,8 +166,10 @@ public class UserDb {
 	 * @param user
 	 * @return true if successful or false if unsuccessful
 	 */
+	@Override
 	public boolean update(User user) {
-		String userUpdate = "UPDATE user SET UserName = ?, Password = ?, FirstName = ?, LastName = ?, PhoneNumber = ?, Email = ? WHERE ID = ?";
+		String userUpdate = "UPDATE user SET UserName = ?, Password = ?, FirstName = ?, LastName = ?, PhoneNumber = ?, Email = ?, IsReviewer = ?, "
+				+ "IsAdmin = ? WHERE ID = ?";
 
 		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(userUpdate);) {
 			ps.setString(1, user.getUserName());
@@ -173,7 +178,9 @@ public class UserDb {
 			ps.setString(4, user.getLastName());
 			ps.setString(5, user.getPhoneNumber());
 			ps.setString(6, user.getEmail());
-			ps.setInt(7, user.getId());
+			ps.setBoolean(7, user.isReviewer());
+			ps.setBoolean(8, user.isAdmin());
+			ps.setInt(9, user.getId());
 			ps.executeUpdate();
 
 			return true;
