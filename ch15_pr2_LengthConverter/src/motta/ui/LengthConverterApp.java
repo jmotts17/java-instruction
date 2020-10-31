@@ -37,7 +37,6 @@ public class LengthConverterApp {
 				break;
 			case 3:
 				deleteConversion(conversions);
-				System.out.println("\nEntry removed.");
 				break;
 			case 4:
 				// Nothing to do
@@ -122,9 +121,20 @@ public class LengthConverterApp {
 	 * @param conversions
 	 */
 	public static void deleteConversion(List<Conversion> conversions) {
+		// Output conversion menu
 		displayConversions(conversions);
-		int conversionChoice = Console.getInt("Enter conversion number: ");
-		conversions.remove(--conversionChoice);
+
+		// Prompt user for option and decrement it for arraylist
+		int conversionChoice = Console.getInt("\nEnter conversion number: ");
+		conversionChoice--;
+
+		// if-else validates user input
+		if (!(conversionChoice >= conversions.size()) && !(conversionChoice < 0)) {
+			conversions.remove(conversionChoice);
+			System.out.println("\nEntry removed.");
+		} else {
+			System.out.println("\nInvalid conversion number");
+		}
 	}
 
 }
