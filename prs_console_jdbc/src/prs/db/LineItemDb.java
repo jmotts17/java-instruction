@@ -177,4 +177,32 @@ public class LineItemDb extends DbAbstract implements DbInterface<LineItem> {
 		}
 	}
 
+	/**
+	 * Takes in a requestID and returns a list of all the list items with that
+	 * requestID.
+	 * 
+	 * @param requestId
+	 * @return List of LineItems
+	 */
+	public List<LineItem> getAllLineItemsByRequest(int requestId) {
+		String lineItemRequest = "SELECT * FROM LineItem WHERE RequestID = " + requestId;
+
+		try (Connection con = getConnection();
+				Statement statement = con.createStatement();
+				ResultSet lineItems = statement.executeQuery(lineItemRequest);) {
+
+			List<LineItem> lineItemList = new ArrayList<>();
+
+			while (lineItems.next()) {
+				LineItem lineItem = getLineItemFromResultSet(lineItems);
+				lineItemList.add(lineItem);
+			}
+
+			return lineItemList;
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return null;
+		}
+	}
+
 }

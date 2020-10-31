@@ -34,6 +34,37 @@ public class UserDb extends DbAbstract implements DbInterface<User> {
 //	}
 
 	/**
+	 * Authenticates a User.
+	 *
+	 * @param userName The user's userName
+	 * @param password The user's password
+	 * @returns The matching User or null if no matching User found
+	 */
+	public User authenticateUser(String userName, String password) {
+		String selectByUserAndPass = "SELECT * FROM user WHERE UserName = ? AND Password = ?";
+
+		try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(selectByUserAndPass);) {
+			ps.setString(1, userName);
+			ps.setString(2, password);
+			ResultSet users = ps.executeQuery();
+
+			if (users.next()) {
+				User user = getUserFromResultSet(users);
+				users.close();
+				System.out.println("Login successful.");
+				return user;
+			} else {
+				users.close();
+				System.out.println("Invalid username/password.");
+				return null;
+			}
+		} catch (SQLException e) {
+			System.err.println("Caught exception. " + e);
+			return null;
+		}
+	}
+
+	/**
 	 * Creates and returns a user object based on the ResultSet.
 	 * 
 	 * @param rs

@@ -116,6 +116,10 @@ public class PrsApp {
 			case "li_ul":
 				updateLineItem();
 				break;
+			case "li_ri":
+				getLineItemsByRequestId();
+				break;
+			// LOGIN / LOGOUT / EXIT CASES *****************
 			case "login":
 				if (authenticatedUser == null) {
 					authenticatedUser = userLogin();
@@ -207,6 +211,7 @@ public class PrsApp {
 				System.out.println("li_al - Add line item");
 				System.out.println("li_dl - Delete line item");
 				System.out.println("li_ul - Update line item");
+				System.out.println("li_ri - LineItems by Request ID");
 				command = Console.getString("Enter command: ");
 				break;
 			case "login":
@@ -233,40 +238,15 @@ public class PrsApp {
 	// *************** LOGIN METHODS ******************
 	// ************************************************
 	/**
-	 * Authenticates a User
-	 *
-	 * @param userName The user's userName
-	 * @param password The user's password
-	 * @returns The matching User or null if no matching User found
-	 */
-	public static User authenticateUser(String userName, String password) {
-		List<User> userList = userDb.getAll();
-
-		for (User user : userList) {
-			if (user.getUserName().equals(userName)) {
-				if (user.getPassword().equals(password)) {
-					System.out.println("Login successful.");
-					return user;
-				} else {
-					System.out.println("Wrong password.");
-					return null;
-				}
-			}
-		}
-		System.out.println("User not found");
-		return null;
-	}
-
-	/**
 	 * Prompts the user for a user name and password and passes the data to the
 	 * authenticateUser method.
 	 * 
 	 * @return user
 	 */
-	public static User userLogin() {
+	private static User userLogin() {
 		String userName = Console.getString("Username: ");
 		String password = Console.getString("Password: ");
-		return authenticateUser(userName, password);
+		return userDb.authenticateUser(userName, password);
 	}
 
 	// ***********************************************
@@ -704,6 +684,20 @@ public class PrsApp {
 			System.out.println("Line item updated successfully.");
 		} else {
 			System.out.println("Error updating line item.");
+		}
+	}
+
+	/**
+	 * Prompts the user for the request ID and outputs the list of LineItems with
+	 * that request ID.
+	 */
+	private static void getLineItemsByRequestId() {
+		int requestId = Console.getInt("Request ID: ");
+		List<LineItem> lineItems = lineItemDb.getAllLineItemsByRequest(requestId);
+
+		System.out.println("\nLine Items for Request ID: " + requestId);
+		for (LineItem lineItem : lineItems) {
+			System.out.println(lineItem);
 		}
 	}
 }
