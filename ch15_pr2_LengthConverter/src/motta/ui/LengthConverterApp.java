@@ -33,10 +33,11 @@ public class LengthConverterApp {
 			case 2:
 				Conversion newConversion = addConversion();
 				conversions.add(newConversion);
-				System.out.println("\nThis entry has been saved.");
+				System.out.println("\nEntry added.");
 				break;
 			case 3:
 				deleteConversion(conversions);
+				System.out.println("\nEntry removed.");
 				break;
 			case 4:
 				// Nothing to do
