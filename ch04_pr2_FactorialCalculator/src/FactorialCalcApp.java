@@ -15,7 +15,7 @@ public class FactorialCalcApp {
 
 		do {
 			// Prompt user for input
-			System.out.print("\nEnter an integer that's greater than 0 and less than 21: ");
+			System.out.print("\nEnter an integer that's greater than 0 and less than 10: ");
 			int num = scanner.nextInt();
 
 			// Declare factorial variable
